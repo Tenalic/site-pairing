@@ -25,5 +25,10 @@ public class Hello {
 	public String test2() {
 		return "test";
 	}
+	
+	@GetMapping("/test3")
+	public String test3() {
+		return "test";
+	}
 
 }
