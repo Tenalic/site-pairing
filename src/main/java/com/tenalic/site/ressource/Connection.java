@@ -8,17 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tenalic.site.utils.ConstantesModel;
+import com.tenalic.site.utils.ConstantesSession;
+
 @Controller
 public class Connection {
 
 	@GetMapping(value = { "", "/", "/connection" })
 	public String connectionGet(Model model, HttpSession session) {
-		model.addAttribute("provenance", "connectionGet");
-		String id = (String) session.getAttribute("id");
-		if (id != null) {
-			model.addAttribute("id", id);
-		} else {
-			model.addAttribute("id", "null");
+		model.addAttribute(ConstantesModel.PROVENANCE, "connectionGet");
+		String idKonami = (String) session.getAttribute(ConstantesSession.ID_KONAMI);
+		if (idKonami != null) {
+			model.addAttribute(ConstantesModel.ID_KONAMI, idKonami);
+			return "redirect:home";
 		}
 		return "connection";
 	}
@@ -26,10 +28,10 @@ public class Connection {
 	@PostMapping("/connection")
 	public String connectionPost(@RequestParam(value = "idKonami", required = true) String idKonami, Model model,
 			HttpSession session) {
-		model.addAttribute("provenance", "connectionPost");
-		session.setAttribute("id", idKonami);
-		model.addAttribute("id", idKonami);
-		return "home";
+		model.addAttribute(ConstantesModel.PROVENANCE, "connectionPost");
+		session.setAttribute(ConstantesSession.ID_KONAMI, idKonami);
+		model.addAttribute(ConstantesModel.ID_KONAMI, idKonami);
+		return "redirect:home";
 	}
 
 }
