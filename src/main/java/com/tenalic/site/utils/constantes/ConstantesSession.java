@@ -1,4 +1,4 @@
-package com.tenalic.site.utils;
+package com.tenalic.site.utils.constantes;
 
 public class ConstantesSession {
 	

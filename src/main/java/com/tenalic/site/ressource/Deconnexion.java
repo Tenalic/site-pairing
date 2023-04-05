@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.tenalic.site.utils.ConstantesModel;
-import com.tenalic.site.utils.ConstantesSession;
+import com.tenalic.site.utils.constantes.ConstantesModel;
+import com.tenalic.site.utils.constantes.ConstantesSession;
 
 @Controller
 public class Deconnexion {
