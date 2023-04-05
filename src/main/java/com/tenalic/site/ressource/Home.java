@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.tenalic.site.dto.InfosModelGenerique;
 import com.tenalic.site.utils.constantes.ConstantesSession;
 import com.tenalic.site.utils.mapper.InfosModelGeneriqueMapper;
 import com.tenalic.site.utils.model.ModelUtils;

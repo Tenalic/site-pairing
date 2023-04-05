@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tenalic.site.dto.InfosModelGenerique;
-import com.tenalic.site.utils.constantes.ConstantesModel;
 import com.tenalic.site.utils.constantes.ConstantesSession;
 import com.tenalic.site.utils.mapper.InfosModelGeneriqueMapper;
 import com.tenalic.site.utils.model.ModelUtils;
