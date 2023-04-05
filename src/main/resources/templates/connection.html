@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Connection</title>
+</head>
+<body>
+	<div>
+		<td th:text="${provenance} ?: ${provenance}" />
+	</div>
+	<div>
+		<td th:text="${id} ?: ${id}" />
+	</div>
+	<div>
+		<td th:text="${erreur} ?: ${erreur}" />
+	</div>
+	<div align="center">
+		<form action="/connection" method="post">
+			<p>
+				<label>ID KONAMI</label> <input type="text" name="idKonami"
+					id="idKonami" required>
+			</p>
+			<button>Connection</button>
+		</form>
+	</div>
+</body>
+</html>
