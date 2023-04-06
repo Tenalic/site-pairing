@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tenalic.site.utils.Utils;
+import com.tenalic.site.utils.constantes.ConstantesModel;
 import com.tenalic.site.utils.constantes.ConstantesSession;
 import com.tenalic.site.utils.mapper.InfosModelGeneriqueMapper;
 import com.tenalic.site.utils.model.ModelUtils;
@@ -27,10 +29,18 @@ public class Connection {
 	@PostMapping("/connection")
 	public String connectionPost(@RequestParam(value = "idKonami", required = true) String idKonami, Model model,
 			HttpSession session) {
+
+		String messageErreur = Utils.verifierIdKonami(idKonami);
+
+		if (messageErreur != null) {
+			model.addAttribute(ConstantesModel.ERREUR, messageErreur);
+			return "connection";
+		}
+
 		session.setAttribute(ConstantesSession.ID_KONAMI, idKonami);
 
 		model = ModelUtils.setAttributeGenerique(model, InfosModelGeneriqueMapper.mapInfosModelGenerique(idKonami));
-		
+
 		return "redirect:home";
 	}
 

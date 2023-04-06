@@ -6,5 +6,6 @@ public class ConstantesModel {
 	
 	public static String PROVENANCE = "provenance";
 
+	public static String ERREUR = "erreur";
 
 }
