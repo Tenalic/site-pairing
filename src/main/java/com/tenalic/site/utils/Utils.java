@@ -1,6 +1,9 @@
 package com.tenalic.site.utils;
 
+import javax.servlet.http.HttpSession;
+
 import com.tenalic.site.utils.constantes.ConstanteMessageErreur;
+import com.tenalic.site.utils.constantes.ConstantesSession;
 
 public class Utils {
 
@@ -15,6 +18,15 @@ public class Utils {
 			Integer.parseInt(idkonami);
 		} catch (Exception e) {
 			return ConstanteMessageErreur.ID_KONAMI_PAS_QUE_DES_CHIFFRE_ERREUR;
+		}
+		return null;
+	}
+
+	public static String estConnecte(HttpSession session) {
+		String idKonami = (String) session.getAttribute(ConstantesSession.ID_KONAMI);
+
+		if (idKonami == null) {
+			return "redirect:connection";
 		}
 		return null;
 	}

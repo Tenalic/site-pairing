@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Connection</title>
+</head>
+<body>
+	<div>
+		<td th:text="${erreur} ?: ${erreur}" />
+	</div>
+	<div align="center">
+		<label>saisir pairing</label>
+		<form action="/saisirPairing" method="post">
+			<p>
+				<textarea name="pairing" id="idKonami"></textarea>
+			</p>
+			<button>valider</button>
+		</form>
+	</div>
+</body>
+</html>
