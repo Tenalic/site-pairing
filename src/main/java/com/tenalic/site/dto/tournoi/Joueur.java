@@ -1,8 +1,9 @@
 package com.tenalic.site.dto.tournoi;
 
+import java.util.Comparator;
 import java.util.List;
 
-public class Joueur extends Personne {
+public class Joueur extends Personne implements Comparable<Joueur> {
 
 	private double point;
 
@@ -41,6 +42,12 @@ public class Joueur extends Personne {
 	@Override
 	public String toString() {
 		return "Joueur [point=" + point + ", drop=" + drop + ", listePenatite=" + listePenatite + "]";
+	}
+
+	@Override
+	public int compareTo(Joueur o) {
+		return Comparator.comparing(Joueur::getNom).thenComparing(Personne::getPrenom).thenComparing(Personne::getCossy)
+				.compare(this, o);
 	}
 
 }

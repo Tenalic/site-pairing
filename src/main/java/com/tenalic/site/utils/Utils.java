@@ -1,7 +1,10 @@
 package com.tenalic.site.utils;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import com.tenalic.site.dto.tournoi.Joueur;
 import com.tenalic.site.utils.constantes.ConstanteMessageErreur;
 import com.tenalic.site.utils.constantes.ConstantesSession;
 
@@ -30,7 +33,7 @@ public class Utils {
 		}
 		return null;
 	}
-	
+
 	public static String estConnecteAdmin(HttpSession session) {
 		String nameAdmin = (String) session.getAttribute(ConstantesSession.NAME_ADMIN);
 
@@ -38,6 +41,18 @@ public class Utils {
 			return "redirect:connectionAdmin";
 		}
 		return null;
+	}
+
+	public static boolean listeContienJoueur(List<Joueur> listeJoueur, Joueur joueur) {
+		if (joueur == null || joueur.getCossy() == null) {
+			return false;
+		}
+		for (Joueur j : listeJoueur) {
+			if (j.getCossy().equals(joueur.getCossy())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
