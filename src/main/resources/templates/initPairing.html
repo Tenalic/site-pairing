@@ -9,6 +9,15 @@
 		<td th:text="${erreur} ?: ${erreur}" />
 	</div>
 	<div align="center">
+		<label>saisir liste joueur cossy | nom | prenom pour creer le tournoi</label>
+		<form action="/creerTournoi" method="post">
+			<p>
+				<textarea name="infosJoueur" id="infosJoueur"></textarea>
+			</p>
+			<button>valider</button>
+		</form>
+	</div>
+	<div align="center">
 		<label>saisir pairing</label>
 		<form action="/saisirPairing" method="post">
 			<p>

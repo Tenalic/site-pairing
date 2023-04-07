@@ -23,7 +23,7 @@ public class Pairing {
 		return "initPairing";
 	}
 	
-	@PostMapping("//saisirPairing")
+	@PostMapping("/saisirPairing")
 	public String pairingPost(Model model, HttpSession session) {
 		String redictection = Utils.estConnecte(session);
 
