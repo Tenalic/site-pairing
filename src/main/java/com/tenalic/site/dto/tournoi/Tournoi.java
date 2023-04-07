@@ -6,7 +6,7 @@ public class Tournoi {
 
 	private int roundActuelle;
 
-	private List<Joueur> listeJoeuur;
+	private List<Joueur> listeJoueur;
 
 	private List<Judge> listeJudge;
 
@@ -24,12 +24,12 @@ public class Tournoi {
 		this.roundActuelle = roundActuelle;
 	}
 
-	public List<Joueur> getListeJoeuur() {
-		return listeJoeuur;
+	public List<Joueur> getListeJoueur() {
+		return listeJoueur;
 	}
 
-	public void setListeJoeuur(List<Joueur> listeJoeuur) {
-		this.listeJoeuur = listeJoeuur;
+	public void setListeJoueur(List<Joueur> listeJoeuur) {
+		this.listeJoueur = listeJoeuur;
 	}
 
 	public List<Judge> getListeJudge() {
@@ -50,7 +50,7 @@ public class Tournoi {
 
 	@Override
 	public String toString() {
-		return "Tournoi [roundActuelle=" + roundActuelle + ", listeJoeuur=" + listeJoeuur + ", listeJudge=" + listeJudge
+		return "Tournoi [roundActuelle=" + roundActuelle + ", listeJoeuur=" + listeJoueur + ", listeJudge=" + listeJudge
 				+ ", listeRound=" + listeRound + "]";
 	}
 

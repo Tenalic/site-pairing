@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Liste des joueurs</title>
+</head>
+<body>
+	<div>
+		<td th:text="${erreur} ?: ${erreur}" />
+	</div>
+	<div align="center" th:if="${tournoi}">
+		<table border="1">
+			<thead>
+				<tr>
+					<th>cossy</th>
+					<th>Nom</th>
+					<th>Prenom</th>
+					<th>Point</th>
+					<th>drop</th>
+					<th>Penalite</th>
+					<th>info</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="joueur: ${tournoi.listeJoueur}">
+					<td><h5 th:text="${joueur.cossy}"></h5></td>
+					<td><h5 th:text="${joueur.nom}"></h5></td>
+					<td><h5 th:text="${joueur.prenom}"></h5></td>
+					<td><h5 th:text="${joueur.point}"></h5></td>
+					<td><h5 th:text="${joueur.drop}"></h5></td>
+					<td><h5 th:text="todo"></h5></td>
+					<td><h5 th:text="todo"></h5></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tenalic.site.dao.FakeBaseDeDonnee;
 import com.tenalic.site.service.TournoiServiceInterface;
 import com.tenalic.site.utils.constantes.ConstanteMessageErreur;
 import com.tenalic.site.utils.constantes.ConstantesModel;
@@ -33,6 +34,12 @@ public class Tournoi {
 	@GetMapping("/creerTournoi")
 	public String getPageSaisie(Model model, HttpSession session) {
 		return "initPairing";
+	}
+
+	@GetMapping("/listeJoueur")
+	public String getListeJoueur(Model model, HttpSession session) {
+		model.addAttribute(ConstantesModel.TOURNOI, FakeBaseDeDonnee.getInstanceTournoi().getTournoi());
+		return "listeJoueur";
 	}
 
 }
