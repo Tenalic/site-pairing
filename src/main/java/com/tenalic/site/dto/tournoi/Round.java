@@ -7,6 +7,10 @@ public class Round {
 	private Joueur joueur1;
 
 	private Joueur joueur2;
+	
+	private String winner;
+	
+	private boolean duelFini;
 
 	private int numeroTable;
 
@@ -60,6 +64,22 @@ public class Round {
 	public String toString() {
 		return "Round [numeroRound=" + numeroRound + ", joueur1=" + joueur1 + ", joueur2=" + joueur2 + ", numeroTable="
 				+ numeroTable + ", tempsSupplementaire=" + tempsSupplementaire + "]";
+	}
+
+	public String getWinner() {
+		return winner;
+	}
+
+	public void setWinner(String winner) {
+		this.winner = winner;
+	}
+
+	public boolean isDuelFini() {
+		return duelFini;
+	}
+
+	public void setDuelFini(boolean duelFini) {
+		this.duelFini = duelFini;
 	}
 
 }

@@ -123,4 +123,31 @@ public class PairingServiceImpl implements PairingService {
 				.filter(j -> cossy.equals(j.getCossy())).findFirst().orElseThrow();
 	}
 
+	@Override
+	public void saisirResultatMatch(String cossyWinner) {
+		setResultat(cossyWinner);
+	}
+
+	private void setResultat(String cossyWinner) {
+		Tournoi tournoi = FakeBaseDeDonnee.getInstanceTournoi().getTournoi();
+		Joueur joueur = tournoi.getListeJoueur().stream().filter(j -> cossyWinner.equals(j.getCossy())).findFirst()
+				.orElseThrow();
+		setWinner(tournoi.getListeRound(), joueur.getCossy() + " " + joueur.getPrenom() + " " + joueur.getNom(),
+				cossyWinner, tournoi.getRoundActuelle());
+	}
+
+	private List<Round> setWinner(List<Round> listeRound, String winner, String cossyWinnern, int numeroRound) {
+		int index = 0;
+		for (Round r : listeRound) {
+			if ((cossyWinnern.equals(r.getJoueur1().getCossy()) || cossyWinnern.equals(r.getJoueur2().getCossy()))
+					&& r.getNumeroRound() == numeroRound) {
+				listeRound.get(index).setWinner(winner);
+				listeRound.get(index).setDuelFini(true);
+				return listeRound;
+			}
+			index++;
+		}
+		return null;
+	}
+
 }

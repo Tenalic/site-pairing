@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tenalic.site.service.PairingService;
 import com.tenalic.site.utils.Utils;
@@ -41,6 +43,26 @@ public class Home {
 		model = ModelUtils.setAttributeGenerique(model, InfosModelGeneriqueMapper.mapInfosModelGenerique(idKonami));
 
 		return "home";
+	}
+
+	@PostMapping("/saisirWinner")
+	public String saisirWinner(Model model, HttpSession session,
+			@RequestParam(value = "winner", required = true) String cossyWinner) {
+
+		String redictection = Utils.estConnecte(session);
+
+		if (redictection != null) {
+			return redictection;
+		}
+
+		try {
+			pairingService.saisirResultatMatch(cossyWinner);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute(ConstantesModel.ERREUR, e.toString());
+		}
+
+		return "redirect:home";
 	}
 
 }
