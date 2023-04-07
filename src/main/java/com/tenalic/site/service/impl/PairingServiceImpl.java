@@ -81,9 +81,22 @@ public class PairingServiceImpl implements PairingService {
 			if (count > 1) {
 				count = 0;
 				round.setNumeroRound(numeroRound);
-				listeRound.add(round);
+				listeRound = addRoundInList(listeRound, round);
 			}
 		}
+		return listeRound;
+	}
+
+	private List<Round> addRoundInList(List<Round> listeRound, Round round) {
+		int index = 0;
+		for (Round r : listeRound) {
+			if (r.getNumeroTable() == round.getNumeroTable() && r.getNumeroRound() == round.getNumeroRound()) {
+				listeRound.set(index, round);
+				return listeRound;
+			}
+			index++;
+		}
+		listeRound.add(round);
 		return listeRound;
 	}
 

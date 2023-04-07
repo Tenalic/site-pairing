@@ -31,7 +31,6 @@ public class Home {
 		String idKonami = (String) session.getAttribute(ConstantesSession.ID_KONAMI);
 
 		try {
-			pairingService.recupererInfosJoueursRound(idKonami);
 			model.addAttribute(ConstantesModel.LIST_ROUND, pairingService.recupererInfosJoueursRound(idKonami));
 		} catch (Exception e) {
 			model.addAttribute(ConstantesModel.ERREUR, e.toString());
