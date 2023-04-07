@@ -30,5 +30,14 @@ public class Utils {
 		}
 		return null;
 	}
+	
+	public static String estConnecteAdmin(HttpSession session) {
+		String nameAdmin = (String) session.getAttribute(ConstantesSession.NAME_ADMIN);
+
+		if (nameAdmin == null) {
+			return "redirect:connectionAdmin";
+		}
+		return null;
+	}
 
 }

@@ -9,5 +9,7 @@ public class ConstantesModel {
 	public static String ERREUR = "erreur";
 	
 	public static String TOURNOI = "tournoi";
+	
+	public static String NOM_ADMIN = "nameAdmin";
 
 }

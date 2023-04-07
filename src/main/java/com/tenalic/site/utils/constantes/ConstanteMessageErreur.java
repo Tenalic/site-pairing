@@ -9,5 +9,8 @@ public class ConstanteMessageErreur {
 	public static String ID_KONAMI_PAS_QUE_DES_CHIFFRE_ERREUR = "L'id konami ne contient pas que des chiffres";
 	
 	public static String CHAMP_VIDE = "Merci de remplir la zone de text";
+	
+	public static String IDENTIFIANT_ERRONEE = "Mot de passe ou nom de compte incorrecte";
 
+	
 }

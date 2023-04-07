@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Connection</title>
+</head>
+<body>
+	<div>
+		<td th:text="${idKonami} ?: ${idKonami}" />
+	</div>
+	<div>
+		<td th:text="${erreur} ?: ${erreur}" />
+	</div>
+	<div align="center">
+		<form action="/connectionAdmin" method="post">
+			<p>
+				<label>Nom admin</label> <input type="text" name="nameAdmin"
+					id="nameAdmin" required>
+			</p>
+			<p>
+				<label>Mot de passe admin</label> <input type="text" name="paswwordAdmin"
+					id="paswwordAdmin" required>
+			</p>
+			<button>Connection</button>
+		</form>
+	</div>
+</body>
+</html>
