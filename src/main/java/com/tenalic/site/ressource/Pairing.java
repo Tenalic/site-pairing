@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.tenalic.site.service.AdminService;
-import com.tenalic.site.utils.Utils;
 import com.tenalic.site.utils.constantes.ConstantesModel;
 
 @Controller

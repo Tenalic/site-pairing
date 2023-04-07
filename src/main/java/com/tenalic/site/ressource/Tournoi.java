@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tenalic.site.dao.FakeBaseDeDonnee;
+import com.tenalic.site.service.AdminService;
 import com.tenalic.site.service.TournoiServiceInterface;
 import com.tenalic.site.utils.constantes.ConstanteMessageErreur;
 import com.tenalic.site.utils.constantes.ConstantesModel;
@@ -20,9 +21,18 @@ public class Tournoi {
 	@Autowired
 	private TournoiServiceInterface tournoiServiceInterface;
 
+	@Autowired
+	private AdminService adminService;
+
 	@PostMapping("/creerTournoi")
 	public String creerTournoi(Model model, HttpSession session,
 			@RequestParam(value = "infosJoueur", required = true) String infosJoueur) {
+		String mesageErreur = adminService.verificationConnectionAdmin(session);
+
+		if (mesageErreur != null) {
+			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
+			return "redirect:connectionAdmin";
+		}
 		if (infosJoueur == null || "".equals(infosJoueur)) {
 			model.addAttribute(ConstantesModel.ERREUR, ConstanteMessageErreur.CHAMP_VIDE);
 			return "initPairing";
@@ -33,11 +43,23 @@ public class Tournoi {
 
 	@GetMapping("/creerTournoi")
 	public String getPageSaisie(Model model, HttpSession session) {
+		String mesageErreur = adminService.verificationConnectionAdmin(session);
+
+		if (mesageErreur != null) {
+			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
+			return "redirect:connectionAdmin";
+		}
 		return "initPairing";
 	}
 
 	@GetMapping("/listeJoueur")
 	public String getListeJoueur(Model model, HttpSession session) {
+		String mesageErreur = adminService.verificationConnectionAdmin(session);
+
+		if (mesageErreur != null) {
+			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
+			return "redirect:connectionAdmin";
+		}
 		model.addAttribute(ConstantesModel.TOURNOI, FakeBaseDeDonnee.getInstanceTournoi().getTournoi());
 		return "listeJoueur";
 	}
