@@ -22,6 +22,22 @@ public class PairingServiceImpl implements PairingService {
 		return null;
 	}
 
+	@Override
+	public List<Round> recupererInfosJoueursRound(String cossy) {
+		return recupererInfosRound(cossy);
+	}
+
+	private List<Round> recupererInfosRound(String cossy) {
+		List<Round> roundPartie1 = FakeBaseDeDonnee.getInstanceTournoi().getTournoi().getListeRound().stream()
+				.filter(r -> cossy.equals(r.getJoueur1().getCossy())).toList();
+		List<Round> roundPartie2 = FakeBaseDeDonnee.getInstanceTournoi().getTournoi().getListeRound().stream()
+				.filter(r -> cossy.equals(r.getJoueur2().getCossy())).toList();
+		List<Round> mergedList = new ArrayList<Round>();
+		mergedList.addAll(roundPartie1);
+		mergedList.addAll(roundPartie2);
+		return mergedList;
+	}
+
 	private void creerNouvelleRound(String infos) {
 		Tournoi tournoi = Optional.ofNullable(FakeBaseDeDonnee.getInstanceTournoi().getTournoi()).orElse(new Tournoi());
 		tournoi.setRoundActuelle(tournoi.getRoundActuelle() + 1);

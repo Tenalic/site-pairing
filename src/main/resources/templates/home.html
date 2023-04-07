@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Home</title>
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand">Listes des Pages</a>
@@ -20,16 +20,40 @@
 			</div>
 		</div>
 	</div>
-	<div>
+	<div align="center">
+		Connecté en tant que :
 		<td th:text="${idKonami} ?: ${idKonami}" />
 	</div>
 	<div>
 		<td th:text="${erreur} ?: ${erreur}" />
 	</div>
-	<div align="center">
-		<form action="/deconnexion" method="post">
-			<button>Deconnexion</button>
-		</form>
+	<div align="center" th:if="listRound">
+		<table border="1">
+			<thead>
+				<tr>
+					<th>round</th>
+					<th>numero table</th>
+					<th>Prenom 1</th>
+					<th>Nom 1</th>
+					<th>Point 1</th>
+					<th>Prenom 2</th>
+					<th>Nom 2</th>
+					<th>Point 2</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="round: ${listRound}">
+					<td><h5 th:text="${round.numeroRound}"></h5></td>
+					<td><h5 th:text="${round.numeroTable}"></h5></td>
+					<td><h5 th:text="${round.joueur1.prenom}"></h5></td>
+					<td><h5 th:text="${round.joueur1.nom}"></h5></td>
+					<td><h5 th:text="${round.joueur1.point}"></h5></td>
+					<td><h5 th:text="${round.joueur2.prenom}"></h5></td>
+					<td><h5 th:text="${round.joueur2.nom}"></h5></td>
+					<td><h5 th:text="${round.joueur2.point}"></h5></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>

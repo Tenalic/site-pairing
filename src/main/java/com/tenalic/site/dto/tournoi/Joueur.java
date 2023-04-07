@@ -39,9 +39,11 @@ public class Joueur extends Personne implements Comparable<Joueur> {
 		this.listePenatite = listePenatite;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Joueur [point=" + point + ", drop=" + drop + ", listePenatite=" + listePenatite + "]";
+		return "Joueur [point=" + point + ", drop=" + drop + ", listePenatite=" + listePenatite + ", toString()="
+				+ super.toString() + "]";
 	}
 
 	@Override
