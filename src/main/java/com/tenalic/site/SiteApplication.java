@@ -11,7 +11,7 @@ public class SiteApplication extends SpringBootServletInitializer {
 	public static void main(String[] args) {
 		SpringApplication.run(SiteApplication.class, args);
 	}
-
+//test
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(SiteApplication.class);
