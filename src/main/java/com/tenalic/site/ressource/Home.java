@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tenalic.site.service.PairingService;
 import com.tenalic.site.utils.Utils;
-import com.tenalic.site.utils.constantes.Constantes;
 import com.tenalic.site.utils.constantes.ConstantesModel;
 import com.tenalic.site.utils.constantes.ConstantesSession;
 import com.tenalic.site.utils.mapper.InfosModelGeneriqueMapper;
@@ -57,7 +56,7 @@ public class Home {
 		}
 
 		try {
-			pairingService.saisirResultatMatch(cossyWinner, Constantes.SAISIR);
+			pairingService.saisirResultatMatch(cossyWinner);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ConstantesModel.ERREUR, e.toString());

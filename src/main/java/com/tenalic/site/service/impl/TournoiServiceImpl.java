@@ -51,13 +51,13 @@ public class TournoiServiceImpl implements TournoiServiceInterface {
 			}
 			switch (count) {
 			case 0:
-				joueur.setPrenom(info);
+				joueur.setCossy(info);
 				break;
 			case 1:
 				joueur.setNom(info);
 				break;
 			case 2:
-				joueur.setCossy(info);
+				joueur.setPrenom(info);
 				break;
 			}
 			count++;

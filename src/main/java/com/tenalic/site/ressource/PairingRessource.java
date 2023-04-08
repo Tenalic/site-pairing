@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tenalic.site.service.AdminService;
 import com.tenalic.site.service.PairingService;
-import com.tenalic.site.utils.constantes.ConstanteMessageErreur;
 import com.tenalic.site.utils.constantes.ConstantesModel;
 
 @Controller
@@ -37,8 +36,7 @@ public class PairingRessource {
 
 	@PostMapping("/creerNouvelleRound")
 	public String creerNouvelleRound(Model model, HttpSession session,
-			@RequestParam(value = "pairing", required = true) String pairingInfos,
-			@RequestParam(value = "force") String force) {
+			@RequestParam(value = "pairing", required = true) String pairingInfos) {
 
 		String mesageErreur = adminService.verificationConnectionAdmin(session);
 
@@ -48,12 +46,6 @@ public class PairingRessource {
 		}
 
 		try {
-			if (force == null || !"vrai".equals(force)) {
-				if (!pairingService.toutLesResultatSontRemplis()) {
-					model.addAttribute(ConstantesModel.ERREUR, ConstanteMessageErreur.MANQUE_RESULTAT);
-					return "initPairing";
-				}
-			}
 			pairingService.creerPairing(pairingInfos.replaceAll("[\r\n]+", ";"));
 		} catch (Exception e) {
 			mesageErreur = e.toString();
@@ -62,5 +54,6 @@ public class PairingRessource {
 
 		return "initPairing";
 	}
+	
 
 }

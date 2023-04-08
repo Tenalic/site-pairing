@@ -12,7 +12,6 @@ import com.tenalic.site.dto.tournoi.Joueur;
 import com.tenalic.site.dto.tournoi.Round;
 import com.tenalic.site.dto.tournoi.Tournoi;
 import com.tenalic.site.service.PairingService;
-import com.tenalic.site.utils.constantes.Constantes;
 
 @Service
 public class PairingServiceImpl implements PairingService {
@@ -85,18 +84,6 @@ public class PairingServiceImpl implements PairingService {
 				listeRound = addRoundInList(listeRound, round);
 			}
 		}
-		return verifierListRound(listeRound);
-	}
-
-	private List<Round> verifierListRound(List<Round> listeRound) {
-		for (int i = 0; i < listeRound.size(); i++) {
-			if (listeRound.get(i).getJoueur1() == null) {
-				listeRound.get(i).setJoueur1(new Joueur());
-			}
-			if (listeRound.get(i).getJoueur2() == null) {
-				listeRound.get(i).setJoueur2(new Joueur());
-			}
-		}
 		return listeRound;
 	}
 
@@ -132,43 +119,28 @@ public class PairingServiceImpl implements PairingService {
 	}
 
 	private Joueur findJoueur(List<Joueur> listJoueur, String cossy) {
-		Joueur joueur = Optional.ofNullable(listJoueur).orElse(new ArrayList<Joueur>()).stream()
-				.filter(j -> cossy.equals(j.getCossy())).findFirst().orElse(null);
-		if (joueur == null) {
-			joueur = new Joueur();
-			joueur.setCossy("");
-			joueur.setNom("BYE");
-			joueur.setPrenom("BYE");
-		}
-		return joueur;
+		return Optional.ofNullable(listJoueur).orElse(new ArrayList<Joueur>()).stream()
+				.filter(j -> cossy.equals(j.getCossy())).findFirst().orElseThrow();
 	}
 
 	@Override
-	public void saisirResultatMatch(String cossyWinner, int action) {
-		setResultat(cossyWinner, action);
+	public void saisirResultatMatch(String cossyWinner) {
+		setResultat(cossyWinner);
 	}
 
-	private void setResultat(String cossyWinner, int action) {
+	private void setResultat(String cossyWinner) {
 		Tournoi tournoi = FakeBaseDeDonnee.getInstanceTournoi().getTournoi();
 		Joueur joueur = tournoi.getListeJoueur().stream().filter(j -> cossyWinner.equals(j.getCossy())).findFirst()
-				.orElse(null);
-		if (joueur == null) {
-			joueur = new Joueur();
-			joueur.setNom("");
-			joueur.setPrenom("");
-			joueur.setCossy("draw");
-		}
+				.orElseThrow();
 		setWinner(tournoi.getListeRound(), joueur.getCossy() + " " + joueur.getPrenom() + " " + joueur.getNom(),
-				cossyWinner, tournoi.getRoundActuelle(), action);
+				cossyWinner, tournoi.getRoundActuelle());
 	}
 
-	private List<Round> setWinner(List<Round> listeRound, String winner, String cossyWinnern, int numeroRound,
-			int action) {
+	private List<Round> setWinner(List<Round> listeRound, String winner, String cossyWinnern, int numeroRound) {
 		int index = 0;
 		for (Round r : listeRound) {
-			if ((cossyWinnern.equals(r.getJoueur1().getCossy()) || cossyWinnern.equals(r.getJoueur2().getCossy())
-					|| String.valueOf(r.getNumeroTable()).equals(cossyWinnern)) && r.getNumeroRound() == numeroRound
-					&& (!r.isDuelFini() || action == Constantes.MODIFIER)) {
+			if ((cossyWinnern.equals(r.getJoueur1().getCossy()) || cossyWinnern.equals(r.getJoueur2().getCossy()))
+					&& r.getNumeroRound() == numeroRound) {
 				listeRound.get(index).setWinner(winner);
 				listeRound.get(index).setDuelFini(true);
 				return listeRound;
@@ -176,31 +148,6 @@ public class PairingServiceImpl implements PairingService {
 			index++;
 		}
 		return null;
-	}
-
-	@Override
-	public boolean toutLesResultatSontRemplis() {
-		return verifierResultatBdd();
-	}
-
-	private boolean verifierResultatBdd() {
-		try {
-			List<Round> listeRound = FakeBaseDeDonnee.getInstanceTournoi().getTournoi().getListeRound();
-			if (listeRound != null) {
-				int roundActuelle = FakeBaseDeDonnee.getInstanceTournoi().getTournoi().getRoundActuelle();
-				List<Round> listeRoundAVerifier = listeRound.stream().filter(r -> r.getNumeroRound() == roundActuelle)
-						.toList();
-				for (Round round : listeRoundAVerifier) {
-					if (round.getWinner() == null) {
-						return false;
-					}
-				}
-			}
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 
 }
