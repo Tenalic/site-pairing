@@ -70,6 +70,10 @@
 										th:text="${round.joueur2.nom}"></label> <label
 										th:text="${round.joueur2.prenom}"></label>
 								</div>
+								<div>
+									<input type="radio" id="winnerChoice3" name="winner"
+										th:value="${round.numeroTable}"> <label th:text="draw"></label>
+								</div>
 								<button>Valider</button>
 							</form>
 						</div>

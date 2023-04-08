@@ -12,6 +12,7 @@ import com.tenalic.site.dto.tournoi.Joueur;
 import com.tenalic.site.dto.tournoi.Round;
 import com.tenalic.site.dto.tournoi.Tournoi;
 import com.tenalic.site.service.PairingService;
+import com.tenalic.site.utils.constantes.Constantes;
 
 @Service
 public class PairingServiceImpl implements PairingService {
@@ -131,23 +132,31 @@ public class PairingServiceImpl implements PairingService {
 	}
 
 	@Override
-	public void saisirResultatMatch(String cossyWinner) {
-		setResultat(cossyWinner);
+	public void saisirResultatMatch(String cossyWinner, int action) {
+		setResultat(cossyWinner, action);
 	}
 
-	private void setResultat(String cossyWinner) {
+	private void setResultat(String cossyWinner, int action) {
 		Tournoi tournoi = FakeBaseDeDonnee.getInstanceTournoi().getTournoi();
 		Joueur joueur = tournoi.getListeJoueur().stream().filter(j -> cossyWinner.equals(j.getCossy())).findFirst()
-				.orElseThrow();
+				.orElse(null);
+		if (joueur == null) {
+			joueur = new Joueur();
+			joueur.setNom("");
+			joueur.setPrenom("");
+			joueur.setCossy("draw");
+		}
 		setWinner(tournoi.getListeRound(), joueur.getCossy() + " " + joueur.getPrenom() + " " + joueur.getNom(),
-				cossyWinner, tournoi.getRoundActuelle());
+				cossyWinner, tournoi.getRoundActuelle(), action);
 	}
 
-	private List<Round> setWinner(List<Round> listeRound, String winner, String cossyWinnern, int numeroRound) {
+	private List<Round> setWinner(List<Round> listeRound, String winner, String cossyWinnern, int numeroRound,
+			int action) {
 		int index = 0;
 		for (Round r : listeRound) {
-			if ((cossyWinnern.equals(r.getJoueur1().getCossy()) || cossyWinnern.equals(r.getJoueur2().getCossy()))
-					&& r.getNumeroRound() == numeroRound) {
+			if ((cossyWinnern.equals(r.getJoueur1().getCossy()) || cossyWinnern.equals(r.getJoueur2().getCossy())
+					|| String.valueOf(r.getNumeroTable()).equals(cossyWinnern)) && r.getNumeroRound() == numeroRound
+					&& (!r.isDuelFini() || action == Constantes.MODIFIER)) {
 				listeRound.get(index).setWinner(winner);
 				listeRound.get(index).setDuelFini(true);
 				return listeRound;
