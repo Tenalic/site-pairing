@@ -58,7 +58,6 @@
 								<div>
 									<input type="radio" id="winnerChoice1" name="winner"
 										th:value="${round.joueur1.cossy}"> <label
-										th:text="${round.joueur1.cossy}"></label> <label
 										th:text="${round.joueur1.nom}"></label> <label
 										th:text="${round.joueur1.prenom}"></label>
 
@@ -66,9 +65,12 @@
 								<div>
 									<input type="radio" id="winnerChoice2" name="winner"
 										th:value="${round.joueur2.cossy}"> <label
-										th:text="${round.joueur2.cossy}"></label> <label
 										th:text="${round.joueur2.nom}"></label> <label
 										th:text="${round.joueur2.prenom}"></label>
+								</div>
+								<div>
+									<input type="radio" id="winnerChoice3" name="winner"
+										th:value="${round.numeroTable}"> <label th:text="draw"></label>
 								</div>
 								<button>Valider</button>
 							</form>

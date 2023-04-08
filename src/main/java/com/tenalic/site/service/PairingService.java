@@ -10,6 +10,8 @@ public interface PairingService {
 
 	List<Round> recupererInfosJoueursRound(String cossy);
 
-	void saisirResultatMatch(String cossyWinner);
+	void saisirResultatMatch(String cossyWinner, int action);
+
+	boolean toutLesResultatSontRemplis();
 
 }
