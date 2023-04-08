@@ -85,6 +85,18 @@ public class PairingServiceImpl implements PairingService {
 				listeRound = addRoundInList(listeRound, round);
 			}
 		}
+		return verifierListRound(listeRound);
+	}
+
+	private List<Round> verifierListRound(List<Round> listeRound) {
+		for (int i = 0; i < listeRound.size(); i++) {
+			if (listeRound.get(i).getJoueur1() == null) {
+				listeRound.get(i).setJoueur1(new Joueur());
+			}
+			if (listeRound.get(i).getJoueur2() == null) {
+				listeRound.get(i).setJoueur2(new Joueur());
+			}
+		}
 		return listeRound;
 	}
 
