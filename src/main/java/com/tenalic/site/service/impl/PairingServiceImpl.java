@@ -119,8 +119,15 @@ public class PairingServiceImpl implements PairingService {
 	}
 
 	private Joueur findJoueur(List<Joueur> listJoueur, String cossy) {
-		return Optional.ofNullable(listJoueur).orElse(new ArrayList<Joueur>()).stream()
-				.filter(j -> cossy.equals(j.getCossy())).findFirst().orElseThrow();
+		Joueur joueur = Optional.ofNullable(listJoueur).orElse(new ArrayList<Joueur>()).stream()
+				.filter(j -> cossy.equals(j.getCossy())).findFirst().orElse(null);
+		if (joueur == null) {
+			joueur = new Joueur();
+			joueur.setCossy("");
+			joueur.setNom("BYE");
+			joueur.setPrenom("BYE");
+		}
+		return joueur;
 	}
 
 	@Override
