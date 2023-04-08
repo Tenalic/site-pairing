@@ -7,7 +7,7 @@ public class FakeBaseDeDonnee {
 	private static FakeBaseDeDonnee instance = null;
 
 	private Tournoi tournoi;
-
+	
 	private FakeBaseDeDonnee() {
 	}
 

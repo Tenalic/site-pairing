@@ -71,7 +71,7 @@ public class Connection {
 
 		model.addAttribute(ConstantesModel.NOM_ADMIN, nameAdmin);
 
-		return "redirect:pairingAdmin";
+		return "redirect:ecranPairingAdmin";
 	}
 
 }

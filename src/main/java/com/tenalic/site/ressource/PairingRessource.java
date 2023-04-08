@@ -7,18 +7,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tenalic.site.service.AdminService;
+import com.tenalic.site.service.PairingService;
 import com.tenalic.site.utils.constantes.ConstantesModel;
 
 @Controller
-public class Pairing {
+public class PairingRessource {
 
 	@Autowired
 	private AdminService adminService;
 
-	@GetMapping("/pairingAdmin")
-	public String pairingGet(Model model, HttpSession session) {
+	@Autowired
+	private PairingService pairingService;
+
+	@GetMapping("/ecranPairingAdmin")
+	public String ecranPairingAdminGet(Model model, HttpSession session) {
 		String mesageErreur = adminService.verificationConnectionAdmin(session);
 
 		if (mesageErreur != null) {
@@ -29,8 +34,9 @@ public class Pairing {
 		return "initPairing";
 	}
 
-	@PostMapping("/saisirPairing")
-	public String pairingPost(Model model, HttpSession session) {
+	@PostMapping("/creerNouvelleRound")
+	public String creerNouvelleRound(Model model, HttpSession session,
+			@RequestParam(value = "pairing", required = true) String pairingInfos) {
 
 		String mesageErreur = adminService.verificationConnectionAdmin(session);
 
@@ -39,7 +45,15 @@ public class Pairing {
 			return "redirect:connectionAdmin";
 		}
 
+		try {
+			pairingService.creerPairing(pairingInfos.replaceAll("[\r\n]+", ";"));
+		} catch (Exception e) {
+			mesageErreur = e.toString();
+			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
+		}
+
 		return "initPairing";
 	}
+	
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 public class Judge extends Personne {
 
 	private Role role;
-	
+
 	private List<Penalite> listePenaliteMise;
 
 	public Judge() {
@@ -30,8 +30,8 @@ public class Judge extends Personne {
 
 	@Override
 	public String toString() {
-		return "Judge [role=" + role + ", listePenaliteMise=" + listePenaliteMise + "]";
+		return "Judge [role=" + role + ", listePenaliteMise=" + listePenaliteMise + ", toString()=" + super.toString()
+				+ "]";
 	}
-		
-	
+
 }

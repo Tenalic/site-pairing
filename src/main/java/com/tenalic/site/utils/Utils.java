@@ -18,8 +18,9 @@ public class Utils {
 			return ConstanteMessageErreur.ID_KONAMI_MAUVAISE_TAILLE_ERREUR;
 		}
 		try {
-			Integer.parseInt(idkonami);
+			Double.parseDouble(idkonami);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ConstanteMessageErreur.ID_KONAMI_PAS_QUE_DES_CHIFFRE_ERREUR;
 		}
 		return null;

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Home</title>
+<title>Connexion</title>
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -12,21 +12,48 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/home">Actualiser</a></li>
+					<li class="active"><a href="/listeJoueur">Liste joueur</a></li>
 				</ul>
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/deconnexion">Deconnexion</a></li>
+					<li class="active"><a href="/ecranPairingAdmin">Gestion
+							tournoi</a></li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/deconnexionAdmin">Deconnexion</a></li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/resultat">Resultat round</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
-	<div align="center">
-		Connecté en tant que :
+	<div>
 		<td th:text="${idKonami} ?: ${idKonami}" />
 	</div>
 	<div>
 		<td th:text="${erreur} ?: ${erreur}" />
 	</div>
+	<div align="center">
+		Listes des rounds :
+		<table border="1">
+			<thead>
+				<tr>
+					<th>round</th>
+					<th>consulter</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="roundNumero: ${roundListNumero}">
+					<td><h5 th:text="${roundNumero}"></h5></td>
+					<td><form action="/resultat/consulter" method="post">
+							<button id="numeroRound" name="numeroRound"
+								th:value="${roundNumero}">Consulter</button>
+						</form></td>
+				</tr>
+			<tbody>
+		</table>
+	</div>
+
 	<div align="center" th:if="listRound">
 		<table border="1">
 			<thead>
@@ -40,6 +67,7 @@
 					<th>Nom 2</th>
 					<th>Point 2</th>
 					<th>Gagnant</th>
+					<th>Modifier Gagnant</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,7 +81,9 @@
 					<td><h5 th:text="${round.joueur2.nom}"></h5></td>
 					<td><h5 th:text="${round.joueur2.point}"></h5></td>
 					<td>
-						<div th:if="!${round.duelFini}">
+						<h5 th:text="${round.winner}?:${round.winner}"></h5>
+					</td>
+					<td><div>
 							<form action="/saisirWinner" method="post">
 								<div>
 									<input type="radio" id="winnerChoice1" name="winner"
@@ -72,9 +102,7 @@
 								</div>
 								<button>Valider</button>
 							</form>
-						</div>
-						<h5 th:text="${round.winner}?:${round.winner}"></h5>
-					</td>
+						</div></td>
 				</tr>
 			</tbody>
 		</table>
