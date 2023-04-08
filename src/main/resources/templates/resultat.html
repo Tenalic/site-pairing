@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Connexion</title>
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand">Listes des Pages</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/listeJoueur">Liste joueur</a></li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/ecranPairingAdmin">Gestion
+							tournoi</a></li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/deconnexionAdmin">Deconnexion</a></li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/resultat">Resultat round</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div>
+		<td th:text="${idKonami} ?: ${idKonami}" />
+	</div>
+	<div>
+		<td th:text="${erreur} ?: ${erreur}" />
+	</div>
+	<div align="center">
+		Listes des rounds :
+		<table border="1">
+			<thead>
+				<tr>
+					<th>round</th>
+					<th>consulter</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="roundNumero: ${roundListNumero}">
+					<td><h5 th:text="${roundNumero}"></h5></td>
+					<td><form action="/resultat/consulter" method="post">
+							<button id="numeroRound" name="numeroRound"
+								th:value="${roundNumero}">Consulter</button>
+						</form></td>
+				</tr>
+			<tbody>
+		</table>
+	</div>
+
+	<div align="center" th:if="listRound">
+		<table border="1">
+			<thead>
+				<tr>
+					<th>round</th>
+					<th>numero table</th>
+					<th>Prenom 1</th>
+					<th>Nom 1</th>
+					<th>Point 1</th>
+					<th>Prenom 2</th>
+					<th>Nom 2</th>
+					<th>Point 2</th>
+					<th>Gagnant</th>
+					<th>Modifier Gagnant</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="round: ${listRound}">
+					<td><h5 th:text="${round.numeroRound}"></h5></td>
+					<td><h5 th:text="${round.numeroTable}"></h5></td>
+					<td><h5 th:text="${round.joueur1.prenom}"></h5></td>
+					<td><h5 th:text="${round.joueur1.nom}"></h5></td>
+					<td><h5 th:text="${round.joueur1.point}"></h5></td>
+					<td><h5 th:text="${round.joueur2.prenom}"></h5></td>
+					<td><h5 th:text="${round.joueur2.nom}"></h5></td>
+					<td><h5 th:text="${round.joueur2.point}"></h5></td>
+					<td>
+						<h5 th:text="${round.winner}?:${round.winner}"></h5>
+					</td>
+					<td><div>
+							<form action="/saisirWinner" method="post">
+								<div>
+									<input type="radio" id="winnerChoice1" name="winner"
+										th:value="${round.joueur1.cossy}"> <label
+										th:text="${round.joueur1.cossy}"></label> <label
+										th:text="${round.joueur1.nom}"></label> <label
+										th:text="${round.joueur1.prenom}"></label>
+
+								</div>
+								<div>
+									<input type="radio" id="winnerChoice2" name="winner"
+										th:value="${round.joueur2.cossy}"> <label
+										th:text="${round.joueur2.cossy}"></label> <label
+										th:text="${round.joueur2.nom}"></label> <label
+										th:text="${round.joueur2.prenom}"></label>
+								</div>
+								<button>Valider</button>
+							</form>
+						</div></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

@@ -14,4 +14,8 @@ public class ConstantesModel {
 
 	public static String LIST_ROUND = "listRound";
 
+	public static String NUMERO_ROUND = "numeroRound";
+	
+	public static String RESULTAT_ROUND_NUMERO = "roundListNumero";
+
 }
