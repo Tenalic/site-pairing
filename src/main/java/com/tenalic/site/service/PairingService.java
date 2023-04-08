@@ -12,4 +12,6 @@ public interface PairingService {
 
 	void saisirResultatMatch(String cossyWinner, int action);
 
+	boolean toutLesResultatSontRemplis();
+
 }

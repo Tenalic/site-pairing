@@ -11,6 +11,11 @@ public class ConstanteMessageErreur {
 	public static String CHAMP_VIDE = "Merci de remplir la zone de text";
 	
 	public static String IDENTIFIANT_ERRONEE = "Mot de passe ou nom de compte incorrecte";
+	
+	public static String MANQUE_RESULTAT = "Il manque des resultats, la round n'a pas etait creer";
+
+	
+	
 
 	
 }

@@ -15,7 +15,8 @@
 					<li class="active"><a href="/listeJoueur">Liste joueur</a></li>
 				</ul>
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/ecranPairingAdmin">Gestion tournoi</a></li>
+					<li class="active"><a href="/ecranPairingAdmin">Gestion
+							tournoi</a></li>
 				</ul>
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="/deconnexionAdmin">Deconnexion</a></li>
@@ -52,6 +53,9 @@
 			<p>
 				<textarea name="pairing" id="pairing"></textarea>
 			</p>
+			<input type="radio" id="force1" name="force" th:value="non" checked>
+			<label th:text="non"></label> <input type="radio" id="winnerChoice2"
+				name="winner" th:value="oui"> <label th:text="oui"></label>
 			<button>valider</button>
 		</form>
 	</div>

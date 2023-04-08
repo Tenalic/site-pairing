@@ -178,4 +178,29 @@ public class PairingServiceImpl implements PairingService {
 		return null;
 	}
 
+	@Override
+	public boolean toutLesResultatSontRemplis() {
+		return verifierResultatBdd();
+	}
+
+	private boolean verifierResultatBdd() {
+		try {
+			List<Round> listeRound = FakeBaseDeDonnee.getInstanceTournoi().getTournoi().getListeRound();
+			if (listeRound != null) {
+				int roundActuelle = FakeBaseDeDonnee.getInstanceTournoi().getTournoi().getRoundActuelle();
+				List<Round> listeRoundAVerifier = listeRound.stream().filter(r -> r.getNumeroRound() == roundActuelle)
+						.toList();
+				for (Round round : listeRoundAVerifier) {
+					if (round.getWinner() == null) {
+						return false;
+					}
+				}
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
