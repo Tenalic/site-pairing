@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class PenaliteDao {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_penalite")
 	private Integer idPenalite;
 

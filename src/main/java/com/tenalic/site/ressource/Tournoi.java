@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tenalic.site.dao.FakeBaseDeDonnee;
 import com.tenalic.site.service.AdminService;
 import com.tenalic.site.service.TournoiServiceInterface;
 import com.tenalic.site.utils.constantes.ConstanteMessageErreur;
@@ -60,7 +59,7 @@ public class Tournoi {
 			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
 			return "redirect:connectionAdmin";
 		}
-		model.addAttribute(ConstantesModel.TOURNOI, FakeBaseDeDonnee.getInstanceTournoi().getTournoi());
+		model.addAttribute(ConstantesModel.TOURNOI, tournoiServiceInterface.getListJoueur());
 		return "listeJoueur";
 	}
 

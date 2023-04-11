@@ -2,7 +2,7 @@ DELETE from public.tournoi CASCADE;
 
 CREATE TABLE public.joueur
 (
-    id_joueur bigint NOT NULL,
+    id_joueur SERIAL NOT NULL,
     nom character varying,
 	prenom character varying,
 	cossy character varying(10),
@@ -13,7 +13,7 @@ CREATE TABLE public.joueur
 
 CREATE TABLE public.judge
 (
-    id_judge bigint NOT NULL,
+    id_judge SERIAL NOT NULL,
     nom character varying,
 	prenom character varying,
 	cossy character varying(10),
@@ -22,9 +22,9 @@ CREATE TABLE public.judge
 
 CREATE TABLE public.penalite
 (
-    id_penalite bigint NOT NULL,
-	id_joueur bigint NOT NULL,
-	id_judge bigint NOT NULL,
+    id_penalite SERIAL NOT NULL,
+	id_joueur SERIAL NOT NULL,
+	id_judge SERIAL NOT NULL,
     type_penalite character varying,
 	sanction character varying,
 	description text,
@@ -38,12 +38,16 @@ CREATE TABLE public.penalite
 
 CREATE TABLE public.round
 (
-    id_round bigint NOT NULL,
-	id_joueur1 bigint NOT NULL,
-	id_joueur2 bigint NOT NULL,
+    id_round SERIAL NOT NULL,
+	id_joueur1 SERIAL NOT NULL,
+	id_joueur2 SERIAL NOT NULL,
     numero_round smallint,
 	numero_table smallint,
 	temps_supplementaire real,
+	id_joueur_winner bigint NOT NULL,
+	winner_name character varying,
+	winner_cossy character varying,
+	duel_fini boolean,
     PRIMARY KEY (id_round),
 	CONSTRAINT id_joueur1 FOREIGN KEY (id_joueur1)
         REFERENCES public.joueur (id_joueur),
@@ -53,10 +57,10 @@ CREATE TABLE public.round
 
 CREATE TABLE public.tournoi
 (
-    id_tournoi bigint NOT NULL,
-	id_joueur bigint NOT NULL,
-	id_judge bigint NOT NULL,
-    id_round bigint NOT NULL,
+    id_tournoi SERIAL NOT NULL,
+	id_joueur SERIAL NOT NULL,
+	id_judge SERIAL NOT NULL,
+    id_round SERIAL NOT NULL,
 	numero_round_actuelle smallint DEFAULT 0,
     PRIMARY KEY (id_tournoi),
 	CONSTRAINT id_joueur FOREIGN KEY (id_joueur)

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class TournoiDao {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_tournoi")
 	private Integer idTournoi;
 

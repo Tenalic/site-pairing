@@ -27,7 +27,7 @@
 	<div>
 		<td th:text="${erreur} ?: ${erreur}" />
 	</div>
-	<div align="center" th:if="${tournoi}">
+	<div align="center" th:if="${tournoiListeJoueur}">
 		<table border="1">
 			<thead>
 				<tr>
@@ -41,7 +41,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="joueur: ${tournoi.listeJoueur}">
+				<tr th:each="joueur: ${tournoiListeJoueur}">
 					<td><h5 th:text="${joueur.cossy}"></h5></td>
 					<td><h5 th:text="${joueur.nom}"></h5></td>
 					<td><h5 th:text="${joueur.prenom}"></h5></td>

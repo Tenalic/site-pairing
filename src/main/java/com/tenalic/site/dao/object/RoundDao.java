@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class RoundDao {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_round")
 	private Integer idRound;
 
@@ -27,6 +27,18 @@ public class RoundDao {
 
 	@Column(name = "temps_supplementaire")
 	private Long tempsSupplementaire;
+
+	@Column(name = "winner_name")
+	private String winnerName;
+
+	@Column(name = "winner_cossy")
+	private String winnerCossy;
+
+	@Column(name = "id_joueur_winner")
+	private Integer winnerJoueurId;
+
+	@Column(name = "duel_fini")
+	private Boolean duelFini;
 
 	public RoundDao() {
 		super();
@@ -70,6 +82,38 @@ public class RoundDao {
 
 	public void setTempsSupplementaire(Long tempsSupplementaire) {
 		this.tempsSupplementaire = tempsSupplementaire;
+	}
+
+	public String getWinnerName() {
+		return winnerName;
+	}
+
+	public void setWinnerName(String winnerName) {
+		this.winnerName = winnerName;
+	}
+
+	public String getWinnerCossy() {
+		return winnerCossy;
+	}
+
+	public void setWinnerCossy(String winnerCossy) {
+		this.winnerCossy = winnerCossy;
+	}
+
+	public Integer getWinnerJoueurId() {
+		return winnerJoueurId;
+	}
+
+	public void setWinnerJoueurId(Integer winnerJoueurId) {
+		this.winnerJoueurId = winnerJoueurId;
+	}
+
+	public Boolean getDuelFini() {
+		return duelFini;
+	}
+
+	public void setDuelFini(Boolean duelFini) {
+		this.duelFini = duelFini;
 	}
 
 }
