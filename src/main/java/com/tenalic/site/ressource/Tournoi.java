@@ -17,6 +17,8 @@ import com.tenalic.site.utils.constantes.ConstantesModel;
 @Controller
 public class Tournoi {
 
+	private static String CREER = "1";
+
 	@Autowired
 	private TournoiServiceInterface tournoiServiceInterface;
 
@@ -25,7 +27,8 @@ public class Tournoi {
 
 	@PostMapping("/creerTournoi")
 	public String creerTournoi(Model model, HttpSession session,
-			@RequestParam(value = "infosJoueur", required = true) String infosJoueur) {
+			@RequestParam(value = "infosJoueur", required = true) String infosJoueur,
+			@RequestParam(value = "nouveauTournoi", required = true) String nouveauTournoi) {
 		String mesageErreur = adminService.verificationConnectionAdmin(session);
 
 		if (mesageErreur != null) {
@@ -36,7 +39,11 @@ public class Tournoi {
 			model.addAttribute(ConstantesModel.ERREUR, ConstanteMessageErreur.CHAMP_VIDE);
 			return "initPairing";
 		}
-		tournoiServiceInterface.creerTournoi(infosJoueur.replaceAll("[\r\n]+", ";"));
+		if (CREER.equals(nouveauTournoi)) {
+			tournoiServiceInterface.creerTournoi(infosJoueur.replaceAll("[\r\n]+", ";"));
+		} else {
+			tournoiServiceInterface.ajouterJoueurDansTournoi(infosJoueur.replaceAll("[\r\n]+", ";"));
+		}
 		return "initPairing";
 	}
 
@@ -59,7 +66,8 @@ public class Tournoi {
 			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
 			return "redirect:connectionAdmin";
 		}
-		model.addAttribute(ConstantesModel.TOURNOI, tournoiServiceInterface.getListJoueur());
+		model.addAttribute(ConstantesModel.TOURNOI,
+				tournoiServiceInterface.getListJoueurByIdTournoi(tournoiServiceInterface.getTournoi().getIdTournoi()));
 		return "listeJoueur";
 	}
 

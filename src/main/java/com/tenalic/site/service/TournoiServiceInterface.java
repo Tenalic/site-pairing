@@ -9,8 +9,12 @@ public interface TournoiServiceInterface {
 
 	List<Joueur> creerTournoi(String infos);
 
+	List<Joueur> ajouterJoueurDansTournoi(String infos);
+
 	Tournoi getTournoi();
 
 	List<Joueur> getListJoueur();
+
+	List<Joueur> getListJoueurByIdTournoi(int idTournoi);
 
 }

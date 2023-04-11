@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tenalic.site.dao.FakeBaseDeDonnee;
+import com.tenalic.site.dao.repository.TournoiRepo;
 import com.tenalic.site.dto.tournoi.Joueur;
 import com.tenalic.site.dto.tournoi.Round;
 import com.tenalic.site.dto.tournoi.Tournoi;
@@ -16,6 +18,9 @@ import com.tenalic.site.utils.constantes.Constantes;
 
 @Service
 public class PairingServiceImpl implements PairingService {
+
+	@Autowired
+	private TournoiRepo tournoiRepo;
 
 	@Override
 	public String creerPairing(String infos) {
@@ -40,6 +45,7 @@ public class PairingServiceImpl implements PairingService {
 	}
 
 	private void creerNouvelleRound(String infos) {
+		tournoiRepo.findById(1);
 		Tournoi tournoi = Optional.ofNullable(FakeBaseDeDonnee.getInstanceTournoi().getTournoi()).orElse(new Tournoi());
 		tournoi.setRoundActuelle(tournoi.getRoundActuelle() + 1);
 		List<String> listeInfosFormate;

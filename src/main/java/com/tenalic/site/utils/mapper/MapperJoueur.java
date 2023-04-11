@@ -33,15 +33,15 @@ public class MapperJoueur {
 		return joueur;
 	}
 
-	public static List<JoueurDao> mapListJoueurDao(List<Joueur> listeJoueur) {
+	public static List<JoueurDao> mapListJoueurDao(List<Joueur> listeJoueur, int idTournoi) {
 		List<JoueurDao> listeJoueurDao = new ArrayList<JoueurDao>();
 		for (Joueur joueur : listeJoueur) {
-			listeJoueurDao.add(mapJoueurDao(joueur));
+			listeJoueurDao.add(mapJoueurDao(joueur, idTournoi));
 		}
 		return listeJoueurDao;
 	}
 
-	public static JoueurDao mapJoueurDao(Joueur joueur) {
+	public static JoueurDao mapJoueurDao(Joueur joueur, int idTournoi) {
 		JoueurDao joueurDao = new JoueurDao();
 		if (joueur != null) {
 			joueurDao.setCossy(joueur.getCossy());
@@ -49,6 +49,7 @@ public class MapperJoueur {
 			joueurDao.setNom(joueur.getNom());
 			joueurDao.setPoint((int) joueur.getPoint());
 			joueurDao.setPrenom(joueur.getPrenom());
+			joueurDao.setIdTournoi(idTournoi);
 		}
 		return joueurDao;
 	}

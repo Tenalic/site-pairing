@@ -16,6 +16,9 @@ public class JoueurDao {
 	@Column(name = "id_joueur")
 	private Integer idJoueur;
 
+	@Column(name = "id_tournoi")
+	private Integer idTournoi;
+
 	@Column(name = "nom")
 	private String nom;
 
@@ -81,6 +84,14 @@ public class JoueurDao {
 
 	public void setDrop(boolean drop) {
 		this.drop = drop;
+	}
+
+	public Integer getIdTournoi() {
+		return idTournoi;
+	}
+
+	public void setIdTournoi(Integer idTournoi) {
+		this.idTournoi = idTournoi;
 	}
 
 }

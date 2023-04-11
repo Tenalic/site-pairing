@@ -15,6 +15,9 @@ public class RoundDao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_round")
 	private Integer idRound;
+	
+	@Column(name = "id_tournoi")
+	private Integer idTournoi;
 
 	@Column(name = "id_joueur1")
 	private Integer idJoueur1;

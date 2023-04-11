@@ -16,6 +16,9 @@ public class JudgeDao {
 	@Column(name = "id_judge")
 	private Integer idJudge;
 
+	@Column(name = "id_tournoi")
+	private Integer idTournoi;
+
 	@Column(name = "nom")
 	private String nom;
 
@@ -59,6 +62,14 @@ public class JudgeDao {
 
 	public void setCossy(String cossy) {
 		this.cossy = cossy;
+	}
+
+	public Integer getIdTournoi() {
+		return idTournoi;
+	}
+
+	public void setIdTournoi(Integer idTournoi) {
+		this.idTournoi = idTournoi;
 	}
 
 }
