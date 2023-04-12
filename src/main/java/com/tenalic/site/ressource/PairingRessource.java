@@ -48,7 +48,7 @@ public class PairingRessource {
 		}
 
 		try {
-			if (force == null || !"vrai".equals(force)) {
+			if (force == null || "non".equals(force)) {
 				if (!pairingService.toutLesResultatSontRemplis()) {
 					model.addAttribute(ConstantesModel.ERREUR, ConstanteMessageErreur.MANQUE_RESULTAT);
 					return "initPairing";
@@ -56,6 +56,7 @@ public class PairingRessource {
 			}
 			pairingService.creerPairing(pairingInfos.replaceAll("[\r\n]+", ";"));
 		} catch (Exception e) {
+			e.printStackTrace();
 			mesageErreur = e.toString();
 			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
 		}

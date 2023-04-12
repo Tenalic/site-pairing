@@ -39,6 +39,7 @@ public class ResultatRessource {
 		try {
 			model.addAttribute(ConstantesModel.RESULTAT_ROUND_NUMERO, resultatService.getListRound());
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ConstantesModel.ERREUR, e);
 		}
 
@@ -61,6 +62,7 @@ public class ResultatRessource {
 			model.addAttribute(ConstantesModel.LIST_ROUND, resultatService.getListRoundByNumeroRound(roundNumero));
 			model.addAttribute(ConstantesModel.NUMERO_ROUND, "Affichage de la round " + roundNumero);
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ConstantesModel.ERREUR, e);
 		}
 

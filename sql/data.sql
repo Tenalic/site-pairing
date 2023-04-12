@@ -3,7 +3,6 @@ DELETE from public.round CASCADE;
 DELETE from public.joueur CASCADE;
 DELETE from public.judge CASCADE;
 DELETE from public.tournoi CASCADE;
-
 CREATE TABLE public.tournoi
 (
     id_tournoi SERIAL NOT NULL,
@@ -57,12 +56,12 @@ CREATE TABLE public.round
 (
     id_round SERIAL NOT NULL,
     id_tournoi SERIAL NOT NULL,
-	id_joueur1 SERIAL NOT NULL,
-	id_joueur2 SERIAL NOT NULL,
+	id_joueur1 SERIAL,
+	id_joueur2 SERIAL,
     numero_round smallint,
 	numero_table smallint,
 	temps_supplementaire real,
-	id_joueur_winner bigint NOT NULL,
+	id_joueur_winner bigint,
 	winner_name character varying,
 	winner_cossy character varying,
 	duel_fini boolean,

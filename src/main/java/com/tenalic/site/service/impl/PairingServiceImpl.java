@@ -9,18 +9,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tenalic.site.dao.FakeBaseDeDonnee;
+import com.tenalic.site.dao.object.RoundDao;
+import com.tenalic.site.dao.repository.JoueurRepo;
+import com.tenalic.site.dao.repository.RoundRepo;
 import com.tenalic.site.dao.repository.TournoiRepo;
 import com.tenalic.site.dto.tournoi.Joueur;
 import com.tenalic.site.dto.tournoi.Round;
 import com.tenalic.site.dto.tournoi.Tournoi;
 import com.tenalic.site.service.PairingService;
 import com.tenalic.site.utils.constantes.Constantes;
+import com.tenalic.site.utils.mapper.MapperJoueur;
+import com.tenalic.site.utils.mapper.MapperRound;
+import com.tenalic.site.utils.mapper.MapperTournoi;
 
 @Service
 public class PairingServiceImpl implements PairingService {
 
 	@Autowired
 	private TournoiRepo tournoiRepo;
+
+	@Autowired
+	private RoundRepo roundRepo;
+
+	@Autowired
+	private JoueurRepo joueurRepo;
 
 	@Override
 	public String creerPairing(String infos) {
@@ -34,10 +46,8 @@ public class PairingServiceImpl implements PairingService {
 	}
 
 	private List<Round> recupererInfosRound(String cossy) {
-		List<Round> roundPartie1 = FakeBaseDeDonnee.getInstanceTournoi().getTournoi().getListeRound().stream()
-				.filter(r -> cossy.equals(r.getJoueur1().getCossy())).toList();
-		List<Round> roundPartie2 = FakeBaseDeDonnee.getInstanceTournoi().getTournoi().getListeRound().stream()
-				.filter(r -> cossy.equals(r.getJoueur2().getCossy())).toList();
+		List<Round> roundPartie1 = new ArrayList<Round>();
+		List<Round> roundPartie2 = new ArrayList<Round>();
 		List<Round> mergedList = new ArrayList<Round>();
 		mergedList.addAll(roundPartie1);
 		mergedList.addAll(roundPartie2);
@@ -45,19 +55,24 @@ public class PairingServiceImpl implements PairingService {
 	}
 
 	private void creerNouvelleRound(String infos) {
-		tournoiRepo.findById(1);
-		Tournoi tournoi = Optional.ofNullable(FakeBaseDeDonnee.getInstanceTournoi().getTournoi()).orElse(new Tournoi());
+		Tournoi tournoi = MapperTournoi.mapTournoi(tournoiRepo.findLastTournoi());
 		tournoi.setRoundActuelle(tournoi.getRoundActuelle() + 1);
+		tournoi.setListeJoueur(MapperJoueur.mapListJoueur(joueurRepo.findByIdTournoi(tournoi.getIdTournoi())));
+		tournoi.setListeRound(MapperRound.mapListRound(roundRepo.findByIdTournoi(tournoi.getIdTournoi())));
 		List<String> listeInfosFormate;
 		try {
 			listeInfosFormate = Arrays.asList(infos.split(";"));
 		} catch (Exception e) {
 			throw e;
 		}
-		tournoi.setListeRound(creerListeRound(listeInfosFormate,
-				Optional.ofNullable(tournoi.getListeJoueur()).orElse(new ArrayList<Joueur>()),
-				Optional.ofNullable(tournoi.getListeRound()).orElse(new ArrayList<Round>()),
-				tournoi.getRoundActuelle()));
+		List<Round> listRound = creerListeRound(listeInfosFormate, tournoi.getListeJoueur(), tournoi.getListeRound(),
+				tournoi.getRoundActuelle());
+		try {
+			roundRepo.saveAll(MapperRound.mapListRoundDao(listRound, tournoi.getIdTournoi(), null));
+			tournoiRepo.save(MapperTournoi.mapTournoiDao(tournoi));
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	/**
@@ -191,16 +206,11 @@ public class PairingServiceImpl implements PairingService {
 
 	private boolean verifierResultatBdd() {
 		try {
-			List<Round> listeRound = FakeBaseDeDonnee.getInstanceTournoi().getTournoi().getListeRound();
-			if (listeRound != null) {
-				int roundActuelle = FakeBaseDeDonnee.getInstanceTournoi().getTournoi().getRoundActuelle();
-				List<Round> listeRoundAVerifier = listeRound.stream().filter(r -> r.getNumeroRound() == roundActuelle)
-						.toList();
-				for (Round round : listeRoundAVerifier) {
-					if (round.getWinner() == null) {
-						return false;
-					}
-				}
+			Tournoi tournoi = MapperTournoi.mapTournoi(tournoiRepo.findLastTournoi());
+			List<RoundDao> listeRoundDao = roundRepo.findAllRoundSansResultat(tournoi.getIdTournoi(),
+					tournoi.getRoundActuelle());
+			if (listeRoundDao != null && !listeRoundDao.isEmpty()) {
+				return false;
 			}
 			return true;
 		} catch (Exception e) {

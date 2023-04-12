@@ -29,6 +29,7 @@ public class MapperJoueur {
 			joueur.setPrenom(joueurDao.getPrenom());
 			joueur.setRole(new Role());
 			joueur.setListePenatite(new ArrayList<Penalite>());
+			joueur.setId(String.valueOf(joueurDao.getIdJoueur()));
 		}
 		return joueur;
 	}
@@ -50,6 +51,9 @@ public class MapperJoueur {
 			joueurDao.setPoint((int) joueur.getPoint());
 			joueurDao.setPrenom(joueur.getPrenom());
 			joueurDao.setIdTournoi(idTournoi);
+			if (joueur.getId() != null) {
+				joueurDao.setIdJoueur(Integer.parseInt(joueur.getId()));
+			}
 		}
 		return joueurDao;
 	}
