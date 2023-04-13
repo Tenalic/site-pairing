@@ -19,4 +19,6 @@ public interface RoundRepo extends CrudRepository<RoundDao, Integer> {
 	@Query(value = "SELECT DISTINCT numero_round FROM ROUND ORDER BY numero_round desc", nativeQuery = true)
 	List<Integer> findAllNumeroRound();
 
+	RoundDao findByIdTournoiAndNumeroRoundAndNumeroTable(int idTournoi, int numeroRound, int numeroTable);
+
 }

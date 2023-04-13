@@ -4,12 +4,14 @@ public class Round {
 
 	private int numeroRound;
 
+	private int idRound;
+
 	private Joueur joueur1;
 
 	private Joueur joueur2;
-	
+
 	private String winner;
-	
+
 	private boolean duelFini;
 
 	private int numeroTable;
@@ -80,6 +82,14 @@ public class Round {
 
 	public void setDuelFini(boolean duelFini) {
 		this.duelFini = duelFini;
+	}
+
+	public int getIdRound() {
+		return idRound;
+	}
+
+	public void setIdRound(int idRound) {
+		this.idRound = idRound;
 	}
 
 }

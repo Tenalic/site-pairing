@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tenalic.site.dao.FakeBaseDeDonnee;
 import com.tenalic.site.dao.object.RoundDao;
 import com.tenalic.site.dao.repository.JoueurRepo;
 import com.tenalic.site.dao.repository.RoundRepo;
@@ -16,8 +15,9 @@ import com.tenalic.site.dao.repository.TournoiRepo;
 import com.tenalic.site.dto.tournoi.Joueur;
 import com.tenalic.site.dto.tournoi.Round;
 import com.tenalic.site.dto.tournoi.Tournoi;
+import com.tenalic.site.service.JoueurService;
 import com.tenalic.site.service.PairingService;
-import com.tenalic.site.utils.constantes.Constantes;
+import com.tenalic.site.service.TournoiServiceInterface;
 import com.tenalic.site.utils.mapper.MapperJoueur;
 import com.tenalic.site.utils.mapper.MapperRound;
 import com.tenalic.site.utils.mapper.MapperTournoi;
@@ -34,24 +34,16 @@ public class PairingServiceImpl implements PairingService {
 	@Autowired
 	private JoueurRepo joueurRepo;
 
+	@Autowired
+	private JoueurService joueurService;
+
+	@Autowired
+	private TournoiServiceInterface tournoiService;
+
 	@Override
 	public String creerPairing(String infos) {
 		creerNouvelleRound(infos);
 		return null;
-	}
-
-	@Override
-	public List<Round> recupererInfosJoueursRound(String cossy) {
-		return recupererInfosRound(cossy);
-	}
-
-	private List<Round> recupererInfosRound(String cossy) {
-		List<Round> roundPartie1 = new ArrayList<Round>();
-		List<Round> roundPartie2 = new ArrayList<Round>();
-		List<Round> mergedList = new ArrayList<Round>();
-		mergedList.addAll(roundPartie1);
-		mergedList.addAll(roundPartie2);
-		return mergedList;
 	}
 
 	private void creerNouvelleRound(String infos) {
@@ -155,7 +147,7 @@ public class PairingServiceImpl implements PairingService {
 	private Joueur findJoueur(List<Joueur> listJoueur, String cossy) {
 		Joueur joueur = Optional.ofNullable(listJoueur).orElse(new ArrayList<Joueur>()).stream()
 				.filter(j -> cossy.equals(j.getCossy())).findFirst().orElse(null);
-		if (joueur == null) {
+		if (joueur == null || joueur.getCossy() == null) {
 			joueur = new Joueur();
 			joueur.setCossy("");
 			joueur.setNom("BYE");
@@ -165,38 +157,34 @@ public class PairingServiceImpl implements PairingService {
 	}
 
 	@Override
-	public void saisirResultatMatch(String cossyWinner, int action) {
-		setResultat(cossyWinner, action);
+	public void saisirResultatMatch(int table, int round, String cossyWinner, int action) {
+		setResultat(table, round, cossyWinner, action);
 	}
 
-	private void setResultat(String cossyWinner, int action) {
-		Tournoi tournoi = FakeBaseDeDonnee.getInstanceTournoi().getTournoi();
-		Joueur joueur = tournoi.getListeJoueur().stream().filter(j -> cossyWinner.equals(j.getCossy())).findFirst()
-				.orElse(null);
-		if (joueur == null) {
+	private void setResultat(int table, int round, String cossyWinner, int action) {
+		Tournoi tournoi = tournoiService.getTournoi();
+		Joueur joueur = joueurService.recupererJoueur(cossyWinner, tournoi.getIdTournoi());
+
+		if (joueur == null || joueur.getCossy() == null) {
 			joueur = new Joueur();
 			joueur.setNom("");
-			joueur.setPrenom("");
-			joueur.setCossy("draw");
+			joueur.setPrenom("draw");
+			joueur.setCossy("");
 		}
-		setWinner(tournoi.getListeRound(), joueur.getCossy() + " " + joueur.getPrenom() + " " + joueur.getNom(),
-				cossyWinner, tournoi.getRoundActuelle(), action);
+		RoundDao roundDao = roundRepo.findByIdTournoiAndNumeroRoundAndNumeroTable(tournoi.getIdTournoi(),
+				tournoi.getRoundActuelle(), table);
+		setWinner(roundDao, joueur);
+		roundRepo.save(roundDao);
+
 	}
 
-	private List<Round> setWinner(List<Round> listeRound, String winner, String cossyWinnern, int numeroRound,
-			int action) {
-		int index = 0;
-		for (Round r : listeRound) {
-			if ((cossyWinnern.equals(r.getJoueur1().getCossy()) || cossyWinnern.equals(r.getJoueur2().getCossy())
-					|| String.valueOf(r.getNumeroTable()).equals(cossyWinnern)) && r.getNumeroRound() == numeroRound
-					&& (!r.isDuelFini() || action == Constantes.MODIFIER)) {
-				listeRound.get(index).setWinner(winner);
-				listeRound.get(index).setDuelFini(true);
-				return listeRound;
-			}
-			index++;
-		}
-		return null;
+	private void setWinner(RoundDao roundDao, Joueur joueur) {
+		roundDao.setDuelFini(true);
+		roundDao.setWinnerCossy(joueur.getCossy());
+		if (joueur.getId() != null)
+			roundDao.setWinnerJoueurId(Integer.parseInt(joueur.getId()));
+		roundDao.setWinnerName(joueur.getPrenom() + " " + Optional.ofNullable(joueur.getNom()).orElse("") + " "
+				+ Optional.ofNullable(joueur.getCossy()).orElse(""));
 	}
 
 	@Override

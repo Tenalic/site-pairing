@@ -21,10 +21,11 @@ public class MapperRoundAllInfosDao {
 				round.setDuelFini(roundDao.getDuelFini());
 				round.setNumeroRound(roundDao.getNumeroRound());
 				round.setNumeroTable(roundDao.getNumeroTable());
-				round.setTempsSupplementaire(roundDao.getIdJoueur1());
+				round.setTempsSupplementaire(roundDao.getTempsSupplementaire());
 				round.setWinner(roundDao.getWinnerName());
 				round.setJoueur1(mapJoueur1(roundDao));
 				round.setJoueur2(mapJoueur2(roundDao));
+				round.setIdRound(roundDao.getIdTournoi());
 			}
 			listRound.add(round);
 		}
@@ -41,6 +42,7 @@ public class MapperRoundAllInfosDao {
 			joueur.setPrenom(allInfosDao.getPrenom_j1());
 			joueur.setRole(new Role());
 			joueur.setDrop(Optional.ofNullable(allInfosDao).map(RoundAllInfosDao::isDrop_j1).orElse(false));
+			joueur.setId(String.valueOf(allInfosDao.getIdJoueur1()));
 		}
 		return joueur;
 	}
@@ -56,6 +58,7 @@ public class MapperRoundAllInfosDao {
 			joueur.setPrenom(allInfosDao.getPrenom_j2());
 			joueur.setRole(new Role());
 			joueur.setDrop(Optional.ofNullable(allInfosDao).map(RoundAllInfosDao::isDrop_j2).orElse(false));
+			joueur.setId(String.valueOf(allInfosDao.getIdJoueur2()));
 		}
 		return joueur;
 	}

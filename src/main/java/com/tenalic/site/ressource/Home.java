@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tenalic.site.service.PairingService;
+import com.tenalic.site.service.RoundService;
 import com.tenalic.site.utils.Utils;
 import com.tenalic.site.utils.constantes.Constantes;
 import com.tenalic.site.utils.constantes.ConstantesModel;
@@ -23,6 +24,9 @@ public class Home {
 	@Autowired
 	private PairingService pairingService;
 
+	@Autowired
+	private RoundService roundService;
+
 	@GetMapping("/home")
 	public String homeGet(Model model, HttpSession session) {
 		String redictection = Utils.estConnecte(session);
@@ -34,7 +38,7 @@ public class Home {
 		String idKonami = (String) session.getAttribute(ConstantesSession.ID_KONAMI);
 
 		try {
-			model.addAttribute(ConstantesModel.LIST_ROUND, pairingService.recupererInfosJoueursRound(idKonami));
+			model.addAttribute(ConstantesModel.LIST_ROUND, roundService.recupererInfosJoueursRound(idKonami));
 		} catch (Exception e) {
 			model.addAttribute(ConstantesModel.ERREUR, e.toString());
 			e.printStackTrace();
@@ -48,7 +52,9 @@ public class Home {
 
 	@PostMapping("/saisirWinner")
 	public String saisirWinner(Model model, HttpSession session,
-			@RequestParam(value = "winner", required = true) String cossyWinner) {
+			@RequestParam(value = "winner", required = true) String cossyWinner,
+			@RequestParam(value = "table", required = true) String table,
+			@RequestParam(value = "round", required = true) String round) {
 
 		String redictection = Utils.estConnecte(session);
 
@@ -57,7 +63,8 @@ public class Home {
 		}
 
 		try {
-			pairingService.saisirResultatMatch(cossyWinner, Constantes.SAISIR);
+			pairingService.saisirResultatMatch(Integer.parseInt(table), Integer.parseInt(round), cossyWinner,
+					Constantes.SAISIR);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ConstantesModel.ERREUR, e.toString());

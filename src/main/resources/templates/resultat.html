@@ -85,6 +85,9 @@
 					</td>
 					<td><div>
 							<form action="/modifierWinner" method="post">
+								<input type="hidden" id="table" name="table"
+									th:value="${round.numeroTable}"> <input type="hidden"
+									id="round" name="round" th:value="${round.numeroRound}">
 								<div>
 									<input type="radio" id="winnerChoice1" name="winner"
 										th:value="${round.joueur1.cossy}"> <label

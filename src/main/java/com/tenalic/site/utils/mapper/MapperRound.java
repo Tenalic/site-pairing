@@ -23,7 +23,7 @@ public class MapperRound {
 		return listRoundDao;
 	}
 
-	public static RoundDao mapRoundDao(Round round, int idRound, Joueur joueurWinner) {
+	public static RoundDao mapRoundDao(Round round, int idTournoi, Joueur joueurWinner) {
 		RoundDao roundDao = new RoundDao();
 		if (round != null) {
 			roundDao.setDuelFini(round.isDuelFini());
@@ -33,14 +33,15 @@ public class MapperRound {
 			id = Optional.of(round).map(Round::getJoueur2).map(Joueur::getId).orElse(null);
 			if (id != null)
 				roundDao.setIdJoueur2(Integer.parseInt(id));
-			roundDao.setIdRound(round.getNumeroRound());
-			roundDao.setIdTournoi(idRound);
+			roundDao.setIdRound(round.getIdRound());
+			roundDao.setIdTournoi(idTournoi);
 			roundDao.setNumeroRound(round.getNumeroRound());
 			roundDao.setNumeroTable(round.getNumeroTable());
 			roundDao.setTempsSupplementaire(round.getTempsSupplementaire());
 			if (joueurWinner != null) {
 				roundDao.setWinnerCossy(joueurWinner.getCossy());
-				roundDao.setWinnerJoueurId(Integer.parseInt(joueurWinner.getId()));
+				if (joueurWinner.getId() != null)
+					roundDao.setWinnerJoueurId(Integer.parseInt(joueurWinner.getId()));
 				roundDao.setWinnerName(
 						joueurWinner.getPrenom() + " " + joueurWinner.getNom() + " " + joueurWinner.getCossy());
 			}

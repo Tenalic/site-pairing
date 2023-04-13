@@ -54,7 +54,7 @@ public class ResultatRessource {
 
 		if (mesageErreur != null) {
 			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
-			return "redirect:connectionAdmin";
+			return "connectionAdmin";
 		}
 
 		try {
@@ -71,7 +71,9 @@ public class ResultatRessource {
 
 	@PostMapping("/modifierWinner")
 	public String saisirWinner(Model model, HttpSession session,
-			@RequestParam(value = "winner", required = true) String cossyWinner) {
+			@RequestParam(value = "winner", required = true) String cossyWinner,
+			@RequestParam(value = "table", required = true) String table,
+			@RequestParam(value = "round", required = true) String round) {
 
 		String mesageErreur = adminService.verificationConnectionAdmin(session);
 
@@ -81,13 +83,23 @@ public class ResultatRessource {
 		}
 
 		try {
-			pairingService.saisirResultatMatch(cossyWinner, Constantes.MODIFIER);
+			pairingService.saisirResultatMatch(Integer.parseInt(table), Integer.parseInt(round), cossyWinner,
+					Constantes.MODIFIER);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ConstantesModel.ERREUR, e.toString());
 		}
 
-		return "redirect:resultat";
+		try {
+			model.addAttribute(ConstantesModel.RESULTAT_ROUND_NUMERO, resultatService.getListRound());
+			model.addAttribute(ConstantesModel.LIST_ROUND, resultatService.getListRoundByNumeroRound(round));
+			model.addAttribute(ConstantesModel.NUMERO_ROUND, "Affichage de la round " + round);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute(ConstantesModel.ERREUR, e.toString());
+		}
+
+		return "resultat";
 	}
 
 }
