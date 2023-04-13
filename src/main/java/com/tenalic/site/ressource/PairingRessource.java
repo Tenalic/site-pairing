@@ -1,5 +1,7 @@
 package com.tenalic.site.ressource;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tenalic.site.dto.tournoi.Round;
 import com.tenalic.site.service.AdminService;
 import com.tenalic.site.service.PairingService;
 import com.tenalic.site.utils.constantes.ConstanteMessageErreur;
@@ -54,7 +57,8 @@ public class PairingRessource {
 					return "initPairing";
 				}
 			}
-			pairingService.creerPairing(pairingInfos.replaceAll("[\r\n]+", ";"));
+			List<Round> listeRound = pairingService.creerPairing(pairingInfos.replaceAll("[\r\n]+", ";"));
+			pairingService.verifierBye(listeRound);
 		} catch (Exception e) {
 			e.printStackTrace();
 			mesageErreur = e.toString();

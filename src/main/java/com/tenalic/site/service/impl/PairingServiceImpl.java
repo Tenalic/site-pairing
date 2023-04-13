@@ -18,6 +18,7 @@ import com.tenalic.site.dto.tournoi.Tournoi;
 import com.tenalic.site.service.JoueurService;
 import com.tenalic.site.service.PairingService;
 import com.tenalic.site.service.TournoiServiceInterface;
+import com.tenalic.site.utils.constantes.Constantes;
 import com.tenalic.site.utils.mapper.MapperJoueur;
 import com.tenalic.site.utils.mapper.MapperRound;
 import com.tenalic.site.utils.mapper.MapperTournoi;
@@ -41,12 +42,11 @@ public class PairingServiceImpl implements PairingService {
 	private TournoiServiceInterface tournoiService;
 
 	@Override
-	public String creerPairing(String infos) {
-		creerNouvelleRound(infos);
-		return null;
+	public List<Round> creerPairing(String infos) {
+		return creerNouvelleRound(infos);
 	}
 
-	private void creerNouvelleRound(String infos) {
+	private List<Round> creerNouvelleRound(String infos) {
 		Tournoi tournoi = MapperTournoi.mapTournoi(tournoiRepo.findLastTournoi());
 		tournoi.setRoundActuelle(tournoi.getRoundActuelle() + 1);
 		tournoi.setListeJoueur(MapperJoueur.mapListJoueur(joueurRepo.findByIdTournoi(tournoi.getIdTournoi())));
@@ -65,6 +65,7 @@ public class PairingServiceImpl implements PairingService {
 		} catch (Exception e) {
 			throw e;
 		}
+		return listRound;
 	}
 
 	/**
@@ -106,8 +107,11 @@ public class PairingServiceImpl implements PairingService {
 			if (listeRound.get(i).getJoueur1() == null) {
 				listeRound.get(i).setJoueur1(new Joueur());
 			}
-			if (listeRound.get(i).getJoueur2() == null) {
+			if (listeRound.get(i).getJoueur2() == null || listeRound.get(i).getJoueur2().getCossy() == null
+					|| listeRound.get(i).getJoueur2().getCossy().equals("")) {
 				listeRound.get(i).setJoueur2(new Joueur());
+				// cas d'un bye
+				listeRound.get(i).setDuelFini(true);
 			}
 		}
 		return listeRound;
@@ -205,6 +209,16 @@ public class PairingServiceImpl implements PairingService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public void verifierBye(List<Round> listeRound) {
+		Round round = listeRound.stream().filter(r -> r.isDuelFini() && (r.getWinner() == null || r.getWinner() == ""))
+				.findFirst().orElse(null);
+		if (round != null) {
+			saisirResultatMatch(round.getNumeroTable(), round.getNumeroRound(), round.getJoueur1().getCossy(),
+					Constantes.MODIFIER);
+		}
 	}
 
 }
