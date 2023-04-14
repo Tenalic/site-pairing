@@ -3,6 +3,8 @@ DELETE from public.round CASCADE;
 DELETE from public.joueur CASCADE;
 DELETE from public.judge CASCADE;
 DELETE from public.tournoi CASCADE;
+
+
 CREATE TABLE public.tournoi
 (
     id_tournoi SERIAL NOT NULL,

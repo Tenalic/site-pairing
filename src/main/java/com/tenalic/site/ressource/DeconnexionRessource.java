@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.tenalic.site.utils.constantes.ConstantesSession;
 
 @Controller
-public class Deconnexion {
+public class DeconnexionRessource {
 
 	@RequestMapping("/deconnexion")
 	public String deconnexionGet(Model model, HttpSession session) {

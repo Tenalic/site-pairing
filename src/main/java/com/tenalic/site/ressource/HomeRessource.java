@@ -19,7 +19,7 @@ import com.tenalic.site.utils.mapper.InfosModelGeneriqueMapper;
 import com.tenalic.site.utils.model.ModelUtils;
 
 @Controller
-public class Home {
+public class HomeRessource {
 
 	@Autowired
 	private PairingService pairingService;

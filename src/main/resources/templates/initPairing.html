@@ -19,10 +19,10 @@
 							tournoi</a></li>
 				</ul>
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/deconnexionAdmin">Deconnexion</a></li>
+					<li class="active"><a href="/resultat">Resultat round</a></li>
 				</ul>
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/resultat">Resultat round</a></li>
+					<li class="active"><a href="/deconnexionAdmin">Deconnexion</a></li>
 				</ul>
 			</div>
 		</div>
@@ -34,7 +34,8 @@
 		<label>saisir liste joueur sous le format :
 			<div>
 				<b>prenom;nom;cossy</b>
-			</div> pour les ajouter au tournoi tournoi
+			</div> pour les ajouter au tournoi ou en creer un nouveau avec l'option
+			"nouveau"
 		</label>
 		<form action="/creerTournoi" method="post">
 			<p>
@@ -47,8 +48,9 @@
 			<button>valider</button>
 		</form>
 	</div>
-	<div align="center">
-		<label>saisir pairing pour la round X sous le format :
+	<div align="center" th:if="${numeroRound}">
+		<label>saisir pairing pour la round
+			<td th:text="${numeroRound} ?: ${numeroRound}" /> sous le format :
 			<div>
 				<b>table;cossy</b>
 			</div>

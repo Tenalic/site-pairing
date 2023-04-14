@@ -26,6 +26,8 @@ import com.tenalic.site.utils.mapper.MapperTournoi;
 @Service
 public class PairingServiceImpl implements PairingService {
 
+	private static final String DRAW = "draw";
+
 	@Autowired
 	private TournoiRepo tournoiRepo;
 
@@ -172,7 +174,7 @@ public class PairingServiceImpl implements PairingService {
 		if (joueur == null || joueur.getCossy() == null) {
 			joueur = new Joueur();
 			joueur.setNom("");
-			joueur.setPrenom("draw");
+			joueur.setPrenom(DRAW);
 			joueur.setCossy("");
 		}
 		RoundDao roundDao = roundRepo.findByIdTournoiAndNumeroRoundAndNumeroTable(tournoi.getIdTournoi(),
@@ -183,12 +185,17 @@ public class PairingServiceImpl implements PairingService {
 	}
 
 	private void setWinner(RoundDao roundDao, Joueur joueur) {
-		roundDao.setDuelFini(true);
-		roundDao.setWinnerCossy(joueur.getCossy());
-		if (joueur.getId() != null)
-			roundDao.setWinnerJoueurId(Integer.parseInt(joueur.getId()));
-		roundDao.setWinnerName(joueur.getPrenom() + " " + Optional.ofNullable(joueur.getNom()).orElse("") + " "
-				+ Optional.ofNullable(joueur.getCossy()).orElse(""));
+		if ((DRAW.equals(joueur.getPrenom()))
+				|| (roundDao.getIdJoueur1() != null && String.valueOf(roundDao.getIdJoueur1()).equals(joueur.getId()))
+				|| (roundDao.getIdJoueur2() != null
+						&& String.valueOf(roundDao.getIdJoueur2()).equals(joueur.getId()))) {
+			roundDao.setDuelFini(true);
+			roundDao.setWinnerCossy(joueur.getCossy());
+			if (joueur.getId() != null)
+				roundDao.setWinnerJoueurId(Integer.parseInt(joueur.getId()));
+			roundDao.setWinnerName(joueur.getPrenom() + " " + Optional.ofNullable(joueur.getNom()).orElse("") + " "
+					+ Optional.ofNullable(joueur.getCossy()).orElse(""));
+		}
 	}
 
 	@Override

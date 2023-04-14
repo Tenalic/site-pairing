@@ -15,7 +15,7 @@ import com.tenalic.site.utils.constantes.ConstanteMessageErreur;
 import com.tenalic.site.utils.constantes.ConstantesModel;
 
 @Controller
-public class Tournoi {
+public class TournoiRessource {
 
 	private static String CREER = "1";
 
@@ -44,7 +44,7 @@ public class Tournoi {
 		} else {
 			tournoiServiceInterface.ajouterJoueurDansTournoi(infosJoueur.replaceAll("[\r\n]+", ";"));
 		}
-		return "initPairing";
+		return "redirect:ecranPairingAdmin";
 	}
 
 	@GetMapping("/creerTournoi")
@@ -55,7 +55,7 @@ public class Tournoi {
 			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
 			return "redirect:connectionAdmin";
 		}
-		return "initPairing";
+		return "redirect:ecranPairingAdmin";
 	}
 
 	@GetMapping("/listeJoueur")

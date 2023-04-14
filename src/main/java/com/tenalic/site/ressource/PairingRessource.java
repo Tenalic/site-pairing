@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tenalic.site.dto.tournoi.Round;
+import com.tenalic.site.dto.tournoi.Tournoi;
 import com.tenalic.site.service.AdminService;
 import com.tenalic.site.service.PairingService;
+import com.tenalic.site.service.TournoiServiceInterface;
 import com.tenalic.site.utils.constantes.ConstanteMessageErreur;
 import com.tenalic.site.utils.constantes.ConstantesModel;
 
@@ -26,6 +28,9 @@ public class PairingRessource {
 	@Autowired
 	private PairingService pairingService;
 
+	@Autowired
+	private TournoiServiceInterface tournoiServiceInterface;
+
 	@GetMapping("/ecranPairingAdmin")
 	public String ecranPairingAdminGet(Model model, HttpSession session) {
 		String mesageErreur = adminService.verificationConnectionAdmin(session);
@@ -33,6 +38,12 @@ public class PairingRessource {
 		if (mesageErreur != null) {
 			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
 			return "redirect:connectionAdmin";
+		}
+
+		Tournoi tournoi = tournoiServiceInterface.getTournoi();
+
+		if (tournoi.getIdTournoi() != 0) {
+			model.addAttribute(ConstantesModel.NUMERO_ROUND, tournoi.getRoundActuelle() + 1);
 		}
 
 		return "initPairing";
@@ -65,7 +76,7 @@ public class PairingRessource {
 			model.addAttribute(ConstantesModel.ERREUR, mesageErreur);
 		}
 
-		return "initPairing";
+		return "redirect:ecranPairingAdmin";
 	}
 
 }

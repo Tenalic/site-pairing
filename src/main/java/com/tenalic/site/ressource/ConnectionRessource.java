@@ -10,17 +10,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tenalic.site.service.AdminService;
-import com.tenalic.site.utils.Utils;
+import com.tenalic.site.service.JoueurService;
 import com.tenalic.site.utils.constantes.ConstantesModel;
 import com.tenalic.site.utils.constantes.ConstantesSession;
 import com.tenalic.site.utils.mapper.InfosModelGeneriqueMapper;
 import com.tenalic.site.utils.model.ModelUtils;
 
 @Controller
-public class Connection {
+public class ConnectionRessource {
 
 	@Autowired
 	private AdminService adminService;
+
+	@Autowired
+	private JoueurService joueurService;
 
 	@GetMapping(value = { "", "/", "/connection" })
 	public String connectionGet(Model model, HttpSession session) {
@@ -35,7 +38,7 @@ public class Connection {
 	public String connectionPost(@RequestParam(value = "idKonami", required = true) String idKonami, Model model,
 			HttpSession session) {
 
-		String messageErreur = Utils.verifierIdKonami(idKonami);
+		String messageErreur = joueurService.verifierCossy(idKonami);
 
 		if (messageErreur != null) {
 			model.addAttribute(ConstantesModel.ERREUR, messageErreur);
