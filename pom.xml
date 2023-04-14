@@ -17,7 +17,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<start-class> com.tenalic.site.SiteApplication</start-class>
-		<java.version>17</java.version>
+		<java.version>16</java.version>
 		<repackage.classifier />
 		<spring-native.version>0.12.1</spring-native.version>
 	</properties>

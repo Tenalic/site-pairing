@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tenalic.site.dao.repository.RoundAllInfosRepo;
+import com.tenalic.site.dto.tournoi.Joueur;
 import com.tenalic.site.dto.tournoi.Round;
+import com.tenalic.site.service.JoueurService;
 import com.tenalic.site.service.RoundService;
 import com.tenalic.site.service.TournoiServiceInterface;
 import com.tenalic.site.utils.mapper.MapperRoundAllInfosDao;
@@ -20,6 +22,9 @@ public class RoundServiceImpl implements RoundService {
 	@Autowired
 	private TournoiServiceInterface tournoiService;
 
+	@Autowired
+	private JoueurService joueurService;
+
 	@Override
 	public List<Round> recuperListRoundLastTournoi() {
 		return MapperRoundAllInfosDao
@@ -28,8 +33,10 @@ public class RoundServiceImpl implements RoundService {
 
 	@Override
 	public List<Round> recupererInfosJoueursRound(String cossy) {
-		return MapperRoundAllInfosDao.mapRound(allInfosRepo
-				.findAllRoundAllInfosDaoByIdTournoiAndCossy(tournoiService.getTournoi().getIdTournoi(), cossy));
+		int idTournoi = tournoiService.getTournoi().getIdTournoi();
+		Joueur joueur = joueurService.recupererJoueur(cossy, idTournoi);
+		return MapperRoundAllInfosDao.mapRound(allInfosRepo.findAllRoundAllInfosDaoByIdTournoiAndIdJoueur(
+				tournoiService.getTournoi().getIdTournoi(), Integer.parseInt(joueur.getId())));
 	}
 
 }
