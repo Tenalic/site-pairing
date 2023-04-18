@@ -12,6 +12,8 @@ public class Round {
 
 	private String winner;
 
+	private Integer winnerJoueurId;
+
 	private boolean duelFini;
 
 	private int numeroTable;
@@ -90,6 +92,14 @@ public class Round {
 
 	public void setIdRound(int idRound) {
 		this.idRound = idRound;
+	}
+
+	public Integer getWinnerJoueurId() {
+		return winnerJoueurId;
+	}
+
+	public void setWinnerJoueurId(Integer winnerJoueurId) {
+		this.winnerJoueurId = winnerJoueurId;
 	}
 
 }

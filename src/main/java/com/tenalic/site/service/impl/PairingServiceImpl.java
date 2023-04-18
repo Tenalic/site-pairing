@@ -17,6 +17,7 @@ import com.tenalic.site.dto.tournoi.Round;
 import com.tenalic.site.dto.tournoi.Tournoi;
 import com.tenalic.site.service.JoueurService;
 import com.tenalic.site.service.PairingService;
+import com.tenalic.site.service.RoundService;
 import com.tenalic.site.service.TournoiServiceInterface;
 import com.tenalic.site.utils.constantes.Constantes;
 import com.tenalic.site.utils.mapper.MapperJoueur;
@@ -27,6 +28,9 @@ import com.tenalic.site.utils.mapper.MapperTournoi;
 public class PairingServiceImpl implements PairingService {
 
 	private static final String DRAW = "draw";
+
+	private static final double POINT_GAGNANT = 3;
+	private static final double POINT_DRAW = 1;
 
 	@Autowired
 	private TournoiRepo tournoiRepo;
@@ -42,6 +46,9 @@ public class PairingServiceImpl implements PairingService {
 
 	@Autowired
 	private TournoiServiceInterface tournoiService;
+
+	@Autowired
+	private RoundService roundService;
 
 	@Override
 	public List<Round> creerPairing(String infos) {
@@ -181,7 +188,43 @@ public class PairingServiceImpl implements PairingService {
 				tournoi.getRoundActuelle(), table);
 		setWinner(roundDao, joueur);
 		roundRepo.save(roundDao);
+		updatePoint(action, joueur, roundDao, tournoi.getIdTournoi());
+	}
 
+	private void updatePoint(int action, Joueur joueur, RoundDao roundDao, int idTournoi) {
+		if (action == Constantes.SAISIR) {
+			if (DRAW.equals(joueur.getPrenom())) {
+				Joueur joueur1 = joueurService.recupererJoueurParId(roundDao.getIdJoueur1());
+				Joueur joueur2 = joueurService.recupererJoueurParId(roundDao.getIdJoueur2());
+				joueurService.updatePointThemSaveJoueur(joueur1, idTournoi, (int) (joueur1.getPoint() + POINT_DRAW));
+				joueurService.updatePointThemSaveJoueur(joueur2, idTournoi, (int) (joueur2.getPoint() + POINT_DRAW));
+			} else {
+				joueurService.updatePointThemSaveJoueur(joueur, idTournoi, (int) (joueur.getPoint() + POINT_GAGNANT));
+			}
+		} else {
+			Joueur joueur1 = joueurService.recupererJoueurParId(roundDao.getIdJoueur1());
+			Joueur joueur2 = joueurService.recupererJoueurParId(roundDao.getIdJoueur2());
+			List<Round> listRoundJoueur1 = roundService.recupererInfosJoueursRound(joueur1.getCossy());
+			List<Round> listRoundJoueur2 = roundService.recupererInfosJoueursRound(joueur2.getCossy());
+			joueurService.updatePointThemSaveJoueur(joueur1, idTournoi,
+					calculPointFromListRound(listRoundJoueur1, joueur1));
+			joueurService.updatePointThemSaveJoueur(joueur2, idTournoi,
+					calculPointFromListRound(listRoundJoueur2, joueur2));
+		}
+	}
+
+	private int calculPointFromListRound(List<Round> listRound, Joueur joueur) {
+		int nombrePoint = 0;
+		for (Round round : listRound) {
+			if (round.getWinnerJoueurId() != null && round.getWinnerJoueurId() == Integer.valueOf(joueur.getId())) {
+				nombrePoint += POINT_GAGNANT;
+			} else {
+				if (round.getWinnerJoueurId() == null && round.isDuelFini()) {
+					nombrePoint += POINT_DRAW;
+				}
+			}
+		}
+		return nombrePoint;
 	}
 
 	private void setWinner(RoundDao roundDao, Joueur joueur) {
@@ -191,10 +234,14 @@ public class PairingServiceImpl implements PairingService {
 						&& String.valueOf(roundDao.getIdJoueur2()).equals(joueur.getId()))) {
 			roundDao.setDuelFini(true);
 			roundDao.setWinnerCossy(joueur.getCossy());
-			if (joueur.getId() != null)
+			if (joueur.getId() != null) {
 				roundDao.setWinnerJoueurId(Integer.parseInt(joueur.getId()));
-			roundDao.setWinnerName(joueur.getPrenom() + " " + Optional.ofNullable(joueur.getNom()).orElse("") + " "
-					+ Optional.ofNullable(joueur.getCossy()).orElse(""));
+				roundDao.setWinnerName(joueur.getPrenom() + " " + Optional.ofNullable(joueur.getNom()).orElse("") + " "
+						+ Optional.ofNullable(joueur.getCossy()).orElse(""));
+			} else {
+				roundDao.setWinnerName(DRAW);
+				roundDao.setWinnerJoueurId(null);
+			}
 		}
 	}
 

@@ -26,6 +26,7 @@ public class MapperRoundAllInfosDao {
 				round.setJoueur1(mapJoueur1(roundDao));
 				round.setJoueur2(mapJoueur2(roundDao));
 				round.setIdRound(roundDao.getIdTournoi());
+				round.setWinnerJoueurId(roundDao.getWinnerJoueurId());
 			}
 			listRound.add(round);
 		}
