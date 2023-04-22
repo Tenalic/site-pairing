@@ -184,8 +184,7 @@ public class PairingServiceImpl implements PairingService {
 			joueur.setPrenom(DRAW);
 			joueur.setCossy("");
 		}
-		RoundDao roundDao = roundRepo.findByIdTournoiAndNumeroRoundAndNumeroTable(tournoi.getIdTournoi(),
-				tournoi.getRoundActuelle(), table);
+		RoundDao roundDao = roundRepo.findByIdTournoiAndNumeroRoundAndNumeroTable(tournoi.getIdTournoi(), round, table);
 		setWinner(roundDao, joueur);
 		roundRepo.save(roundDao);
 		updatePoint(action, joueur, roundDao, tournoi.getIdTournoi());
@@ -216,7 +215,8 @@ public class PairingServiceImpl implements PairingService {
 	private int calculPointFromListRound(List<Round> listRound, Joueur joueur) {
 		int nombrePoint = 0;
 		for (Round round : listRound) {
-			if (round.getWinnerJoueurId() != null && round.getWinnerJoueurId() == Integer.valueOf(joueur.getId())) {
+			if (round.getWinnerJoueurId() != null
+					&& round.getWinnerJoueurId().intValue() == Integer.valueOf(joueur.getId()).intValue()) {
 				nombrePoint += POINT_GAGNANT;
 			} else {
 				if (round.getWinnerJoueurId() == null && round.isDuelFini()) {
