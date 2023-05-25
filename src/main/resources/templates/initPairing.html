@@ -19,10 +19,10 @@
 							tournoi</a></li>
 				</ul>
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/deconnexionAdmin">Deconnexion</a></li>
+					<li class="active"><a href="/resultat">Resultat round</a></li>
 				</ul>
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/resultat">Resultat round</a></li>
+					<li class="active"><a href="/deconnexionAdmin">Deconnexion</a></li>
 				</ul>
 			</div>
 		</div>
@@ -34,17 +34,23 @@
 		<label>saisir liste joueur sous le format :
 			<div>
 				<b>prenom;nom;cossy</b>
-			</div> pour les ajouter au tournoi tournoi
+			</div> pour les ajouter au tournoi ou en creer un nouveau avec l'option
+			"nouveau"
 		</label>
 		<form action="/creerTournoi" method="post">
 			<p>
 				<textarea name="infosJoueur" id="infosJoueur"></textarea>
 			</p>
+			<input type="radio" id="nouveauTournoi2" name="nouveauTournoi"
+				th:value="0" checked> <label th:text="ajout"></label> <input
+				type="radio" id="nouveauTournoi2" name="nouveauTournoi" th:value="1">
+			<label th:text="nouveau"></label>
 			<button>valider</button>
 		</form>
 	</div>
-	<div align="center">
-		<label>saisir pairing pour la round X sous le format :
+	<div align="center" th:if="${numeroRound}">
+		<label>saisir pairing pour la round
+			<td th:text="${numeroRound} ?: ${numeroRound}" /> sous le format :
 			<div>
 				<b>table;cossy</b>
 			</div>
@@ -54,8 +60,8 @@
 				<textarea name="pairing" id="pairing"></textarea>
 			</p>
 			<input type="radio" id="force1" name="force" th:value="non" checked>
-			<label th:text="non"></label> <input type="radio" id="winnerChoice2"
-				name="winner" th:value="oui"> <label th:text="oui"></label>
+			<label th:text="non"></label> <input type="radio" id="force2"
+				name="force" th:value="oui"> <label th:text="oui"></label>
 			<button>valider</button>
 		</form>
 	</div>

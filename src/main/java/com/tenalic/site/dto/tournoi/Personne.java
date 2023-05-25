@@ -2,6 +2,8 @@ package com.tenalic.site.dto.tournoi;
 
 public abstract class Personne {
 
+	private String id;
+
 	private String nom;
 
 	private String prenom;
@@ -51,6 +53,14 @@ public abstract class Personne {
 
 	public void setCossy(String cossy) {
 		this.cossy = cossy;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Override

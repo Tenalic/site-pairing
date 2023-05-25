@@ -10,20 +10,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tenalic.site.service.AdminService;
-import com.tenalic.site.utils.Utils;
+import com.tenalic.site.service.JoueurService;
 import com.tenalic.site.utils.constantes.ConstantesModel;
 import com.tenalic.site.utils.constantes.ConstantesSession;
 import com.tenalic.site.utils.mapper.InfosModelGeneriqueMapper;
 import com.tenalic.site.utils.model.ModelUtils;
 
 @Controller
-public class Connection {
+public class ConnexionRessource {
 
 	@Autowired
 	private AdminService adminService;
 
+	@Autowired
+	private JoueurService joueurService;
+
 	@GetMapping(value = { "", "/", "/connection" })
-	public String connectionGet(Model model, HttpSession session) {
+	public String connexionGet(Model model, HttpSession session) {
 		String idKonami = (String) session.getAttribute(ConstantesSession.ID_KONAMI);
 		if (idKonami != null) {
 			return "redirect:home";
@@ -32,10 +35,10 @@ public class Connection {
 	}
 
 	@PostMapping("/connection")
-	public String connectionPost(@RequestParam(value = "idKonami", required = true) String idKonami, Model model,
+	public String connexionPost(@RequestParam(value = "idKonami", required = true) String idKonami, Model model,
 			HttpSession session) {
 
-		String messageErreur = Utils.verifierIdKonami(idKonami);
+		String messageErreur = joueurService.verifierCossy(idKonami);
 
 		if (messageErreur != null) {
 			model.addAttribute(ConstantesModel.ERREUR, messageErreur);
@@ -50,12 +53,12 @@ public class Connection {
 	}
 
 	@GetMapping(value = "/connectionAdmin")
-	public String connectionAdminGet(Model model, HttpSession session) {
+	public String connexionAdmin(Model model, HttpSession session) {
 		return "connectionAdmin";
 	}
 
 	@PostMapping("/connectionAdmin")
-	public String connectionAdminPost(@RequestParam(value = "nameAdmin", required = true) String nameAdmin,
+	public String connexionAdminPost(@RequestParam(value = "nameAdmin", required = true) String nameAdmin,
 			@RequestParam(value = "paswwordAdmin", required = true) String paswwordAdmin, Model model,
 			HttpSession session) {
 

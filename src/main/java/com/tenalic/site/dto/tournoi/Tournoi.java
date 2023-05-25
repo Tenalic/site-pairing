@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Tournoi {
 
+	private int idTournoi;
+
 	private int roundActuelle;
 
 	private List<Joueur> listeJoueur;
@@ -46,6 +48,14 @@ public class Tournoi {
 
 	public void setListeRound(List<Round> listeRound) {
 		this.listeRound = listeRound;
+	}
+
+	public int getIdTournoi() {
+		return idTournoi;
+	}
+
+	public void setIdTournoi(int idTournoi) {
+		this.idTournoi = idTournoi;
 	}
 
 	@Override
